@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 // material UI
 import {
   Grid,
-  CardMedia,
+  // CardMedia,
   Container,
   Box,
   Typography,
   TextField,
   Button,
-  Card,
-  CardContent,
+  // Card,
+  // CardContent,
   useTheme,
   Stack,
 } from "@mui/material";
@@ -19,6 +19,7 @@ import {
 // material icons
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import SearchIcon from "@mui/icons-material/Search";
+import CardRecipeComponent from "../components/CardRecipeComponent";
 
 const HomePage = ({ idx }) => {
   const handleSearch = (event) => {
@@ -54,7 +55,7 @@ const HomePage = ({ idx }) => {
   ];
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Box my={4} textAlign="center">
         <Typography
           variant="h4"
@@ -113,39 +114,22 @@ const HomePage = ({ idx }) => {
         </Stack>
 
         <Grid container spacing={2} justifyContent="center">
-          {/* Render up to 5 recipe cards */}
-
           {cards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Link to="/recipe-details/:id">
-                <Card
-                  variant="outlined"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.light,
-                      borderColor: theme.palette.primary.light,
-                      boxShadow: `0 0 5px 2px ${theme.palette.primary.light}`,
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={card.image} // Replace with actual image path
-                    alt={"Recipe" + { index }}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" component="h3" gutterBottom>
-                      {card.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Description de la recette {card.name}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
+            <CardRecipeComponent
+              name={card.name}
+              image={card.image}
+              index={index}
+            />
           ))}
+          <Typography
+            display={"flex"}
+            alignItems={"flex-end"}
+            ml={{ sm: "10px" }}
+            mt={{ xs: "10px", sm: "0" }}
+            color={"primary"}
+          >
+            <Link to="/recipe-list">Plus de recettes...</Link>
+          </Typography>
         </Grid>
       </Box>
     </Container>

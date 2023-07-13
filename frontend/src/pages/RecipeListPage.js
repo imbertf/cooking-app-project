@@ -1,18 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 // material UI
-import {
-  Container,
-  Box,
-  Stack,
-  Typography,
-  useTheme,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
+import { Container, Box, Stack, Typography, Grid } from "@mui/material";
+import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
+import CardRecipeComponent from "../components/CardRecipeComponent";
+import SortOptionsComponent from "../components/SortOptionsComponent";
 
 const cards = [
   {
@@ -61,10 +53,12 @@ const cards = [
 ];
 
 const RecipesPage = () => {
-  const theme = useTheme();
-
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="xl" sx={{ display: { md: "flex" } }}>
+      <Box pt={{ md: "85px" }}>
+        <SortOptionsComponent />
+        <CategoryFilterComponent />
+      </Box>
       <Box my={4} textAlign="center">
         <Stack
           direction={"row"}
@@ -78,39 +72,12 @@ const RecipesPage = () => {
         </Stack>
 
         <Grid container spacing={2} justifyContent="center">
-          {/* Render up to 5 recipe cards */}
-
           {cards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Link to="/recipe-details/:id">
-                <Card
-                  variant="outlined"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.light,
-                      borderColor: theme.palette.primary.light,
-                      boxShadow: `0 0 5px 2px ${theme.palette.primary.light}`,
-                    },
-                    minHeight: "270px",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={card.image} // Replace with actual image path
-                    alt={"Recipe" + { index }}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" component="h3" gutterBottom>
-                      {card.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Description de la recette {card.name}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
+            <CardRecipeComponent
+              name={card.name}
+              image={card.image}
+              index={index}
+            />
           ))}
         </Grid>
       </Box>

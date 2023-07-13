@@ -21,15 +21,6 @@ const Theme = createTheme({
   },
 
   components: {
-    // MuiOutlinedInput: {
-    //   styleOverrides: {
-    //     root: {
-    //       fieldset: {
-    //         borderColor: "red",
-    //       },
-    //     },
-    //   },
-    // },
     MuiAppBar: {
       styleOverrides: {
         root: {
