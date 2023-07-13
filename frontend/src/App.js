@@ -1,24 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// components
+import ProtectedRoutesComponent from "./components/ProtectedRoutesComponent";
+import NavBar from "./components/NavBar";
+
+// publicly available pages:
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import TechnicalTermsPage from "./pages/TechnicalTermsPage";
+import RecipeListPage from "./pages/RecipeListPage";
+
+// protected user pages:
+import UserProfilePage from "./pages/user/UserProfilePage";
+import UserFavoriteRecipePage from "./pages/user/UserFavoriteRecipePage";
+import UserNotePadPage from "./pages/user/UserNotePadPage";
+
+// protected admin pages:
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import AdminEditUserPage from "./pages/admin/AdminEditUserPage";
+import AdminRecipes from "./pages/admin/AdminRecipes";
+import AdminCreateRecipePage from "./pages/admin/AdminCreateRecipePage";
+import AdminEditRecipePage from "./pages/admin/AdminEditRecipePage";
+import RecipeDetailsPage from "./pages/RecipeDetailsPage";
+import FooterComponent from "./components/FooterComponent";
+import ScrollToTop from "./components/ScrollToTopComponent";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <ScrollToTop />
+      <Routes>
+        {/* public routes */}
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/technical-terms" element={<TechnicalTermsPage />} />
+        <Route path="/recipe-list" element={<RecipeListPage />} />
+        <Route path="/recipe-details" element={<RecipeDetailsPage />} />
+        <Route path="/recipe-details/:id" element={<RecipeDetailsPage />} />
+        <Route path="/*" element="Page not exists 404" />
+
+        {/* user protected routes:  */}
+        <Route element={<ProtectedRoutesComponent admin={false} />}>
+          <Route path="/user" element={<UserProfilePage />} />
+          <Route path="/user/favorites" element={<UserFavoriteRecipePage />} />
+          <Route path="/user/notepad" element={<UserNotePadPage />} />
+        </Route>
+        {/* admin protected routes:  */}
+        <Route element={<ProtectedRoutesComponent admin={true} />}>
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/edit-user" element={<AdminEditUserPage />} />
+          <Route path="/admin/recipes" element={<AdminRecipes />} />
+          <Route
+            path="/admin/create-new-recipe"
+            element={<AdminCreateRecipePage />}
+          />
+          <Route path="/admin/edit-recipe" element={<AdminEditRecipePage />} />
+        </Route>
+      </Routes>
+      <FooterComponent />
+    </BrowserRouter>
   );
 }
 
