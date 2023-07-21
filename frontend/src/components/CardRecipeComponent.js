@@ -11,11 +11,11 @@ import {
   useTheme,
 } from "@mui/material";
 
-const CardRecipeComponent = ({ index, image, name }) => {
+const CardRecipeComponent = ({ image, name }) => {
   const theme = useTheme();
 
   return (
-    <Grid item xs={12} sm={6} md={4} key={index}>
+    <Grid item xs={12} sm={6} md={4}>
       <Link to="/recipe-details/:id">
         <Card
           variant="outlined"
@@ -31,7 +31,7 @@ const CardRecipeComponent = ({ index, image, name }) => {
             component="img"
             height="140"
             image={image}
-            alt={"Recipe" + { index }}
+            alt={"Recipe" + { name }}
           />
           <CardContent>
             <Typography variant="h6" component="h3" gutterBottom>

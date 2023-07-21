@@ -54,7 +54,7 @@ const cards = [
 
 const RecipesPage = () => {
   return (
-    <Container maxWidth="xl" sx={{ display: { md: "flex" } }}>
+    <Container maxWidth="lg" sx={{ display: { md: "flex" } }}>
       <Box pt={{ md: "85px" }}>
         <SortOptionsComponent />
         <CategoryFilterComponent />
@@ -76,7 +76,7 @@ const RecipesPage = () => {
             <CardRecipeComponent
               name={card.name}
               image={card.image}
-              index={index}
+              key={index}
             />
           ))}
         </Grid>

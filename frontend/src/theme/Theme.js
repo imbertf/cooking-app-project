@@ -1,9 +1,9 @@
 import { createTheme } from "@mui/material/styles";
 
-const Theme = createTheme({
+const theme = createTheme({
   typography: {
     fontFamily: ["Jost Variable", "sans-serif"].join(","),
-    allVariants: { color: "#454545" },
+    allVariants: { color: "#2E5B5B" },
   },
 
   palette: {
@@ -19,7 +19,6 @@ const Theme = createTheme({
       main: "#6EBF63",
     },
   },
-
   components: {
     MuiAppBar: {
       styleOverrides: {
@@ -51,11 +50,4 @@ const Theme = createTheme({
   },
 });
 
-export default Theme;
-
-/* colors */
-/* main: 52C2CC;
-accent: FF9D42;
-text: 454545;
-bittersweet: FF675A;
-mantis: 6EBF63; */
+export default theme;

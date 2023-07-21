@@ -14,7 +14,6 @@ import RecipeListPage from "./pages/RecipeListPage";
 
 // protected user pages:
 import UserProfilePage from "./pages/user/UserProfilePage";
-import UserFavoriteRecipePage from "./pages/user/UserFavoriteRecipePage";
 import UserNotePadPage from "./pages/user/UserNotePadPage";
 
 // protected admin pages:
@@ -46,7 +45,6 @@ function App() {
         {/* user protected routes:  */}
         <Route element={<ProtectedRoutesComponent admin={false} />}>
           <Route path="/user" element={<UserProfilePage />} />
-          <Route path="/user/favorites" element={<UserFavoriteRecipePage />} />
           <Route path="/user/notepad" element={<UserNotePadPage />} />
         </Route>
         {/* admin protected routes:  */}

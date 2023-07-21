@@ -12,6 +12,7 @@ const FooterComponent = () => {
       mt={5}
       pl={{ xs: "16px", sm: "0" }}
       height={100}
+      component={"footer"}
     >
       <Typography variant="h6" color="primary">
         Cooking App Project

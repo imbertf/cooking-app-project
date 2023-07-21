@@ -1,9 +1,43 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Box, Typography, Tabs, Tab } from "@mui/material";
+
+// temporary database
+const categories = [
+  {
+    name: "Potages",
+  },
+  {
+    name: "Hors-d'oeuvre froids",
+  },
+  {
+    name: "Hors-d'oeuvre chauds",
+  },
+  {
+    name: "Oeufs",
+  },
+  {
+    name: "Poissons",
+  },
+  {
+    name: "Coquillages, Crustacés",
+  },
+  {
+    name: "Viandes",
+  },
+  {
+    name: "Abats",
+  },
+  {
+    name: "Volailles",
+  },
+  {
+    name: "Garnitures",
+  },
+  {
+    name: "Desserts",
+  },
+];
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,17 +101,11 @@ export default function VerticalTabs() {
           borderColor: "divider",
         }}
       >
-        <Tab label="Potages" {...a11yProps(0)} />
-        <Tab label="Hors-d'oeuvre froids" {...a11yProps(1)} />
-        <Tab label="Hors-d'oeuvre chauds" {...a11yProps(2)} />
-        <Tab label="Oeufs" {...a11yProps(3)} />
-        <Tab label="Poissons" {...a11yProps(4)} />
-        <Tab label="Coquillages, Crustacés" {...a11yProps(5)} />
-        <Tab label="Viandes" {...a11yProps(6)} />
-        <Tab label="Abats" {...a11yProps(7)} />
-        <Tab label="Volailles" {...a11yProps(8)} />
-        <Tab label="Garnitures" {...a11yProps(9)} />
-        <Tab label="Desserts" {...a11yProps(10)} />
+        {categories.map((category, index) => {
+          return (
+            <Tab label={category.name} {...a11yProps(`${index}`)} key={index} />
+          );
+        })}
       </Tabs>
     </Box>
   );

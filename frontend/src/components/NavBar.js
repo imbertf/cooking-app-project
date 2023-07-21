@@ -2,67 +2,28 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 // material UI
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import { Tooltip } from "@mui/material";
+import {
+  Tooltip,
+  Zoom,
+  Menu,
+  MenuItem,
+  Badge,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+} from "@mui/material";
 
 // material icons
-import SearchIcon from "@mui/icons-material/Search";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-
-const Search = styled("div")(({ theme }) => ({
-  border: `1px solid lightgrey`,
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import SearchComponent from "./SearchComponent";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -107,6 +68,12 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>
         <Link to="/user">Profil</Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/user">Favoris</Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/user/notepad">Bloc notes</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <Link to="/login">Se déconnecter</Link>
@@ -193,6 +160,18 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="primary"
+        >
+          <PersonAddIcon />
+        </IconButton>
+        <p>Register</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -209,19 +188,11 @@ export default function PrimarySearchAppBar() {
           >
             <Link to="/">Cooking App Project</Link>
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon color="primary" />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Recherche..."
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <SearchComponent />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton size="large" aria-label="Accueil" color="primary">
-              <Tooltip title="Accueil" followCursor>
+              <Tooltip title="Accueil" followCursor TransitionComponent={Zoom}>
                 <Link to="/">
                   <HomeOutlinedIcon />
                 </Link>
@@ -232,19 +203,35 @@ export default function PrimarySearchAppBar() {
               aria-label="Repertoire des termes techniques"
               color="primary"
             >
-              <Tooltip title="Termes techniques" followCursor>
+              <Tooltip
+                title="Termes techniques"
+                followCursor
+                TransitionComponent={Zoom}
+              >
                 <Link to="/technical-terms">
                   <ArticleOutlinedIcon />
                 </Link>
               </Tooltip>
             </IconButton>
             <IconButton size="large" aria-label="Recettes" color="primary">
-              <Tooltip title="Recettes" followCursor>
+              <Tooltip title="Recettes" followCursor TransitionComponent={Zoom}>
                 <Link to="/recipe-list">
                   <MenuBookRoundedIcon />
                 </Link>
               </Tooltip>
             </IconButton>
+            <IconButton size="large" aria-label="S'enregistrer" color="primary">
+              <Tooltip
+                title="S'enregistrer"
+                followCursor
+                TransitionComponent={Zoom}
+              >
+                <Link to="/register">
+                  <PersonAddIcon />
+                </Link>
+              </Tooltip>
+            </IconButton>
+
             <IconButton
               size="large"
               edge="end"
@@ -254,7 +241,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="primary"
             >
-              <Tooltip title="Profil" followCursor>
+              <Tooltip title="Profil" followCursor TransitionComponent={Zoom}>
                 <AccountCircle />
               </Tooltip>
             </IconButton>
