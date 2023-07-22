@@ -24,6 +24,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchComponent from "./SearchComponent";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -234,15 +235,22 @@ export default function PrimarySearchAppBar() {
 
             <IconButton
               size="large"
-              edge="end"
               aria-label="Compte utilisateur"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="primary"
+              sx={{ display: "block" }}
             >
               <Tooltip title="Profil" followCursor TransitionComponent={Zoom}>
                 <AccountCircle />
+              </Tooltip>
+            </IconButton>
+            <IconButton size="large" aria-label="Admin" color="primary">
+              <Tooltip title="Recettes" followCursor TransitionComponent={Zoom}>
+                <Link to="/admin/users">
+                  <AdminPanelSettingsOutlinedIcon />
+                </Link>
               </Tooltip>
             </IconButton>
           </Box>

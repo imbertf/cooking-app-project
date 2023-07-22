@@ -172,7 +172,7 @@ const RegisterPage = () => {
               helperText={
                 formData.confirmPassword !== formData.password &&
                 formData.confirmPassword !== ""
-                  ? "Passwords do not match"
+                  ? "Les mots de passe ne correspondent pas"
                   : ""
               }
             />
@@ -185,7 +185,7 @@ const RegisterPage = () => {
               onClick={handleSubmit}
               disabled={!isFormValid()}
             >
-              Register
+              Enregistrer
             </Button>
           </Grid>
         </Grid>

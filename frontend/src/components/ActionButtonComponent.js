@@ -1,9 +1,6 @@
 import * as React from "react";
 import { IconButton, Alert, Snackbar, Tooltip, Zoom } from "@mui/material";
 
-// material icons
-// import DeleteIcon from "@mui/icons-material/Delete";
-
 export default function ActionButtonComponent({
   text,
   color,
@@ -30,7 +27,6 @@ export default function ActionButtonComponent({
     <Tooltip title={toolTip} followCursor TransitionComponent={Zoom}>
       <div onClick={clickAction}>
         <IconButton onClick={handleClick}>{Children}</IconButton>
-
         <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
           <Alert
             onClose={handleClose}

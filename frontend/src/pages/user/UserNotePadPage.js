@@ -44,6 +44,10 @@ const notes = [
   { id: 6, note: "Aiguiser ASAP" },
 ];
 
+const deleteHandler = () => {
+  if (window.confirm("Êtes-vous sur de vouloir supprimer cette note?")); // Alert user for deleting
+};
+
 const UserNotePadPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -214,6 +218,7 @@ const UserNotePadPage = () => {
                   severity={"info"}
                   Children={<DeleteIcon color="error" />}
                   toolTip={"Supprimer"}
+                  clickAction={deleteHandler}
                 />
               </Stack>
             </ListItem>
