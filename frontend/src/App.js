@@ -9,7 +9,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import TechnicalTermsPage from "./pages/TechnicalTermsPage";
+import TermsPage from "./pages/TermsPage";
 import RecipeListPage from "./pages/RecipeListPage";
 
 // protected user pages:
@@ -39,7 +39,7 @@ function App() {
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/technical-terms" element={<TechnicalTermsPage />} />
+        <Route path="/technical-terms" element={<TermsPage />} />
         <Route path="/recipe-list" element={<RecipeListPage />} />
         <Route path="/recipe-details" element={<RecipeDetailsPage />} />
         <Route path="/recipe-details/:id" element={<RecipeDetailsPage />} />
@@ -61,7 +61,7 @@ function App() {
           <Route path="/admin/edit-recipe" element={<AdminEditRecipePage />} />
           <Route path="/admin/terms" element={<AdminTermsPage />} />
           <Route path="/admin/create-terms" element={<AdminCreateTermPage />} />
-          <Route path="/admin/edit-terms" element={<AdminEditTermPage />} />
+          <Route path="/admin/edit-term" element={<AdminEditTermPage />} />
         </Route>
       </Routes>
       <FooterComponent />

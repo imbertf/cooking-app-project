@@ -61,6 +61,7 @@ const AdminEditRecipePage = () => {
       display={"flex"}
       justifyContent={"center"}
       my={{ sm: "160px" }}
+      // maxWidth={"lg"}
     >
       <Paper
         component="form"

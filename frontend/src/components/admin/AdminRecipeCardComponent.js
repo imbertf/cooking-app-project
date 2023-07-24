@@ -20,12 +20,12 @@ import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 
 // tools functions
 const deleteHandler = () => {
-  if (window.confirm("Êtes-vous sur de vouloir supprimer cet utilisateur?")); // Alert user for deleting
+  if (window.confirm("Êtes-vous sur de vouloir supprimer cette recette?")); // Alert user for deleting
 };
 
 export default function AdminRecipeCardComponent({ ID, name, image, alt }) {
   return (
-    <Card variant="outlined" sx={{ m: "10px", width: "250px" }}>
+    <Card variant="outlined" sx={{ m: "4px", width: "250px" }}>
       <CardContent>
         <Typography>ID: {ID}</Typography>
         <Typography>Nom: {name} </Typography>
@@ -39,7 +39,7 @@ export default function AdminRecipeCardComponent({ ID, name, image, alt }) {
       <CardActions sx={{ justifyContent: "flex-end" }}>
         <Stack direction={"row"} alignItems={"center"}>
           <ActionButtonComponent
-            text={"Utilisateur supprimée"}
+            text={"Recette supprimée"}
             severity={"info"}
             Children={<DeleteIcon color="error" />}
             toolTip={"Supprimer"}

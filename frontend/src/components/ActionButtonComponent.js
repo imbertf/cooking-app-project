@@ -27,7 +27,7 @@ export default function ActionButtonComponent({
     <Tooltip title={toolTip} followCursor TransitionComponent={Zoom}>
       <div onClick={clickAction}>
         <IconButton onClick={handleClick}>{Children}</IconButton>
-        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={3500} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity={severity}

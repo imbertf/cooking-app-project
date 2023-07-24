@@ -247,7 +247,7 @@ export default function PrimarySearchAppBar() {
               </Tooltip>
             </IconButton>
             <IconButton size="large" aria-label="Admin" color="primary">
-              <Tooltip title="Recettes" followCursor TransitionComponent={Zoom}>
+              <Tooltip title="Admin" followCursor TransitionComponent={Zoom}>
                 <Link to="/admin/users">
                   <AdminPanelSettingsOutlinedIcon />
                 </Link>

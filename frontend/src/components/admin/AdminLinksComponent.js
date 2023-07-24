@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // material ui
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 
 const AdminLinksComponent = () => {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -20,9 +22,36 @@ const AdminLinksComponent = () => {
       justifyContent={{ xs: "center", sm: "inherit" }}
     >
       <Stack direction={"column"} spacing={3}>
-        <Link to="/admin/users">Users</Link>
-        <Link to="/admin/recipes">Recipes</Link>
-        <Link to="/admin/terms">Terms</Link>
+        <NavLink
+          to="/admin/users"
+          style={({ isActive, isPending }) => {
+            return {
+              color: isActive && theme.palette.secondary.main,
+            };
+          }}
+        >
+          Utilisateurs
+        </NavLink>
+        <NavLink
+          to="/admin/recipes"
+          style={({ isActive, isPending }) => {
+            return {
+              color: isActive && theme.palette.secondary.main,
+            };
+          }}
+        >
+          Recettes
+        </NavLink>
+        <NavLink
+          to="/admin/terms"
+          style={({ isActive, isPending }) => {
+            return {
+              color: isActive && theme.palette.secondary.main,
+            };
+          }}
+        >
+          Termes
+        </NavLink>
       </Stack>
     </Box>
   );
