@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const imageSchema = mongoose.Schema({
-  src: { type: String, required: true },
-  alt: { type: String, required: true },
-});
+const recipeType = require("./RecipeTypeModel");
+const image = require("./ImageModel");
 
 const recipeSchema = mongoose.Schema(
   {
@@ -11,14 +9,13 @@ const recipeSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    recipeType: {
-      type: String,
-      required: true,
-    },
+    recipeType: [recipeType],
     cookingMethod: {
       type: String,
+      required: true,
+      unique: true,
     },
-    tools: [imageSchema],
+    tools: [image],
     ingredients: [
       {
         name: { type: String },
@@ -46,7 +43,7 @@ const recipeSchema = mongoose.Schema(
           ],
         },
         quantity: { type: Number },
-        image: [imageSchema],
+        image: [image],
       },
     ],
     steps: [{ step: { type: String, required: true } }],
@@ -61,5 +58,12 @@ const recipeSchema = mongoose.Schema(
 );
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
+recipeSchema.index(
+  { name: "text", description: "text" },
+  { name: "text" },
+  { ingredients: "text" },
+  { cookingMethod: "text" },
+  { recipeType: "text" }
+);
 
 module.exports = Recipe;

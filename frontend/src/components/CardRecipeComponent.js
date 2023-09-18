@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 
-const CardRecipeComponent = ({ image, name }) => {
+const CardRecipeComponent = ({ image, name, description }) => {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,7 @@ const CardRecipeComponent = ({ image, name }) => {
               {name}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              Description de la recette {name}
+              {description}
             </Typography>
           </CardContent>
         </Card>

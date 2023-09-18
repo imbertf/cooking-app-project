@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Await, Link, useNavigate } from "react-router-dom";
 
 // material ui
 import {
@@ -10,58 +10,81 @@ import {
   Paper,
   Typography,
   Alert,
+  OutlinedInput,
 } from "@mui/material";
+import { updateElementAccess } from "typescript";
 
 const AdminEditRecipePage = () => {
-  const [formData, setFormData] = useState({
-    recipeName: "",
-    recipeType: "",
-    cookingMethod: "",
-    tools: [],
-    ingredients: [],
-    image: "",
-    steps: [],
-  });
+  const navigate = useNavigate();
+  const valuesToUpdate = JSON.parse(localStorage.getItem("valuesToUpdate"));
+  const [getData, setGetData] = useState([]);
+  const [updatedRecipe, setUpdatedRecipe] = useState(valuesToUpdate);
 
-  const isFormValid = () => {
-    return (
-      formData.recipeName !== "" &&
-      formData.recipeType !== "" &&
-      formData.cookingMethod !== "" &&
-      formData.tools !== [] &&
-      formData.ingredients !== [] &&
-      formData.image !== "" &&
-      formData.steps !== []
-    );
-  };
+  useEffect(() => {
+    fetch("http://localhost:3000/api/recipes")
+      .then((res) => res.json())
+      .then((data) => {
+        setGetData(data);
+      });
+  }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   category: "",
+  //   description: "",
+  //   image: null,
+  // });
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isFormValid()) {
-      // Handle form submission here
-      console.log(formData);
-      // You can add your API call or other logic to handle form submission
-    } else {
-      alert("Merci de renseigner tous les champs");
+  const HandleSubmit = async () => {
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", updatedRecipe.name);
+    formDataToSend.append("category", updatedRecipe.category);
+    formDataToSend.append("image", updatedRecipe.image);
+    console.log(formDataToSend);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/recipes/${updatedRecipe._id}`,
+        {
+          method: "PUT",
+          body: formDataToSend,
+        }
+      );
+      if (res.ok) {
+        <Alert>Mise à jour effectuée</Alert>;
+      } else {
+        console.log("Erreur lors de la mise à jour de la recette");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  const handleUpdateChange = (event) => {
+    const { name, value } = event.target;
+    setUpdatedRecipe({ ...updatedRecipe, [name]: value });
+  };
+
+  // change image into [currentValues] state
+  const handleUpdateImage = (event) => {
+    const file = event.target.files[0];
+    setUpdatedRecipe({ ...updatedRecipe, image: file });
+  };
+
+  const clearLocalStorage = async () => {
+    try {
+      localStorage.clear();
+      navigate("/admin/recipes");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(updatedRecipe);
   return (
     <Box
       component={"main"}
       display={"flex"}
       justifyContent={"center"}
       my={{ sm: "160px" }}
-      // maxWidth={"lg"}
     >
       <Paper
         component="form"
@@ -74,11 +97,14 @@ const AdminEditRecipePage = () => {
           boxShadow: "none",
         }}
       >
-        <Link to="/admin/users">
-          <Button variant="outlined" color="info" sx={{ mb: "5px" }}>
-            Retour
-          </Button>
-        </Link>
+        <Button
+          variant="outlined"
+          color="info"
+          sx={{ mb: "5px" }}
+          onClick={clearLocalStorage}
+        >
+          Retour
+        </Button>
         <Typography variant="h5" component="h2" gutterBottom>
           Editer la recette
         </Typography>
@@ -86,10 +112,9 @@ const AdminEditRecipePage = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Nom de la recette"
-              name="recipeName"
-              value={formData.recipeName}
-              onChange={handleChange}
+              name="name"
+              value={updatedRecipe.name}
+              onChange={handleUpdateChange}
               variant="outlined"
               required
             />
@@ -97,34 +122,35 @@ const AdminEditRecipePage = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Type de recette"
-              name="recipeType"
-              value={formData.recipeType}
-              onChange={handleChange}
+              name="category"
+              value={updatedRecipe.category}
+              onChange={handleUpdateChange}
               variant="outlined"
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <TextField
               fullWidth
-              label="Ingrédients"
-              name="ingredients"
-              value={formData.ingredients}
-              onChange={handleChange}
+              name="description"
+              value={updatedRecipe.description}
+              rows={10}
+              multiline
+              onChange={handleUpdateChange}
               variant="outlined"
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
+          <Grid item xs={12} sm={12}>
+            <OutlinedInput
               fullWidth
-              label="Etapes"
-              name="steps"
-              value={formData.steps}
-              onChange={handleChange}
+              type="file"
+              id="image"
+              name="image"
+              accept=".jpg, .jpeg, .png, .webp"
               variant="outlined"
-              required
+              sx={{ my: "5px" }}
+              onChange={handleUpdateImage}
             />
           </Grid>
           <Grid item xs={12}>
@@ -132,8 +158,7 @@ const AdminEditRecipePage = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={handleSubmit}
-              disabled={!isFormValid()}
+              onClick={HandleSubmit}
             >
               Mettre à jour
             </Button>

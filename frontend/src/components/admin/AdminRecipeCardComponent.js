@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 
 // material ui
 import {
@@ -9,26 +8,30 @@ import {
   CardContent,
   Typography,
   CardMedia,
+  IconButton,
+  Tooltip,
+  Zoom,
 } from "@mui/material";
-
-// components
-import ActionButtonComponent from "../ActionButtonComponent";
 
 // material icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 
-// tools functions
-const deleteHandler = () => {
-  if (window.confirm("Êtes-vous sur de vouloir supprimer cette recette?")); // Alert user for deleting
-};
-
-export default function AdminRecipeCardComponent({ ID, name, image, alt }) {
+export default function AdminRecipeCardComponent({
+  ID,
+  name,
+  description,
+  image,
+  alt,
+  handleDelete,
+  handleUpdate,
+}) {
   return (
     <Card variant="outlined" sx={{ m: "4px", width: "250px" }}>
       <CardContent>
         <Typography>ID: {ID}</Typography>
         <Typography>Nom: {name} </Typography>
+        <Typography display={"none"}>Description: {description} </Typography>
         <CardMedia
           component={"img"}
           image={image}
@@ -38,19 +41,24 @@ export default function AdminRecipeCardComponent({ ID, name, image, alt }) {
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
         <Stack direction={"row"} alignItems={"center"}>
-          <ActionButtonComponent
-            text={"Recette supprimée"}
-            severity={"info"}
-            Children={<DeleteIcon color="error" />}
-            toolTip={"Supprimer"}
-            clickAction={deleteHandler}
-          />
-          <Link to="/admin/edit-recipe">
-            <ActionButtonComponent
-              Children={<EditNoteOutlinedIcon color="info" />}
-              toolTip={"Editer"}
-            />
-          </Link>
+          <Tooltip title="Supprimer" followCursor TransitionComponent={Zoom}>
+            <IconButton
+              aria-label="delete"
+              onClick={handleDelete}
+              tooltip={"Supprimer"}
+            >
+              <DeleteIcon color="error" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Editer" followCursor TransitionComponent={Zoom}>
+            <IconButton
+              aria-label="edit"
+              onClick={handleUpdate}
+              tooltip={"Editer"}
+            >
+              <EditNoteOutlinedIcon color="info" />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </CardActions>
     </Card>

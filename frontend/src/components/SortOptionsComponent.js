@@ -6,10 +6,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function SortOptionsComponent() {
-  const [age, setAge] = React.useState("");
+  const [option, setOption] = React.useState("");
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setOption(event.target.value);
   };
 
   return (
@@ -19,8 +19,8 @@ export default function SortOptionsComponent() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
+          value={option}
+          label="Option"
           onChange={handleChange}
         >
           <MenuItem value={"name_1"}>Nom A-Z</MenuItem>

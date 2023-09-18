@@ -8,3 +8,8 @@ a {
   text-decoration: none;
   color: #52c2cc;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
