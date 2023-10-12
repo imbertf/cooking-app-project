@@ -21,6 +21,10 @@ app.use(cors());
 // routes
 const recipeRoutes = require("./routes/recipe");
 app.use("/api/recipes", recipeRoutes);
+const termRoutes = require("./routes/term");
+app.use("/api/terms", termRoutes);
+const noteRoutes = require("./routes/note");
+app.use("/api/notes", noteRoutes);
 
 // Image management
 const path = require("path");
@@ -28,16 +32,16 @@ const multer = require("./middlewares/multer-config");
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 // error handler
-// app.use((error, req, res, next) => {
-//   console.error(error);
-//   next(error);
-// });
-// app.use((error, req, res, next) => {
-//   res.status(500).json({
-//     message: error.message,
-//     stack: error.stack,
-//   });
-// });
+app.use((error, req, res, next) => {
+  console.error(error);
+  next(error);
+});
+app.use((error, req, res, next) => {
+  res.status(500).json({
+    message: error.message,
+    stack: error.stack,
+  });
+});
 
 // port config
 app.listen(process.env.PORT, () => {

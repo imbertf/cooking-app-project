@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // material UI
@@ -21,6 +21,7 @@ import SearchComponent from "../components/SearchComponent";
 
 const HomePage = ({ idx }) => {
   const theme = useTheme();
+  const [getData, setGetData] = useState([]);
   const handleSearch = (event) => {
     event.preventDefault();
   };
@@ -50,6 +51,14 @@ const HomePage = ({ idx }) => {
     //     "https://www.primevere.com/voy_content/uploads/2023/02/image-346.jpg",
     // },
   ];
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/recipes")
+      .then((res) => res.json())
+      .then((data) => {
+        setGetData(data);
+      });
+  }, []);
 
   return (
     <Container maxWidth="md">
@@ -168,10 +177,10 @@ const HomePage = ({ idx }) => {
         </Stack>
 
         <Grid container spacing={2} justifyContent="flex-end">
-          {cards.map((card, index) => (
+          {getData.slice(0, 3).map((recipe, index) => (
             <CardRecipeComponent
-              name={card.name}
-              image={card.image}
+              name={recipe.name}
+              image={recipe.image}
               key={index}
             />
           ))}

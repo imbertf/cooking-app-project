@@ -36,6 +36,15 @@ const theme = createTheme({
         },
       },
     },
+
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          minWidth: "inherit",
+        },
+      },
+    },
+
     MuiLink: {
       styleOverrides: {
         root: {
@@ -46,7 +55,7 @@ const theme = createTheme({
   },
 
   shape: {
-    borderRadius: "20px",
+    borderRadius: 10,
   },
 });
 

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Await, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+// components
+import SnackBarComponent from "../../components/SnackBarComponent";
 
 // material ui
 import {
@@ -11,14 +14,15 @@ import {
   Typography,
   Alert,
   OutlinedInput,
+  CircularProgress,
 } from "@mui/material";
-import { updateElementAccess } from "typescript";
 
 const AdminEditRecipePage = () => {
   const navigate = useNavigate();
   const valuesToUpdate = JSON.parse(localStorage.getItem("valuesToUpdate"));
   const [getData, setGetData] = useState([]);
   const [updatedRecipe, setUpdatedRecipe] = useState(valuesToUpdate);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/recipes")
@@ -27,13 +31,6 @@ const AdminEditRecipePage = () => {
         setGetData(data);
       });
   }, []);
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   category: "",
-  //   description: "",
-  //   image: null,
-  // });
 
   const HandleSubmit = async () => {
     const formDataToSend = new FormData();
@@ -50,12 +47,17 @@ const AdminEditRecipePage = () => {
         }
       );
       if (res.ok) {
-        <Alert>Mise à jour effectuée</Alert>;
+        setShowDeleteAlert(!showDeleteAlert);
+        localStorage.clear();
       } else {
         console.log("Erreur lors de la mise à jour de la recette");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+        navigate("/admin/recipes");
+      }, 1500);
     }
   };
 
@@ -78,7 +80,7 @@ const AdminEditRecipePage = () => {
       console.log(error);
     }
   };
-  console.log(updatedRecipe);
+
   return (
     <Box
       component={"main"}
@@ -160,11 +162,22 @@ const AdminEditRecipePage = () => {
               color="primary"
               onClick={HandleSubmit}
             >
-              Mettre à jour
+              {showDeleteAlert ? (
+                <CircularProgress color="info" size={25} />
+              ) : (
+                "Mettre à jour"
+              )}
             </Button>
           </Grid>
         </Grid>
-        <Alert severity="info">Mise à jour effectuée</Alert>
+        {showDeleteAlert && (
+          <Box>
+            <SnackBarComponent
+              severity={"info"}
+              textAlert={"Recette modifée!"}
+            />
+          </Box>
+        )}
       </Paper>
     </Box>
   );

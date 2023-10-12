@@ -1,72 +1,76 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // material ui
-import { Container, Divider, Typography, Stack } from "@mui/material";
+import {
+  Container,
+  Divider,
+  Typography,
+  Stack,
+  Button,
+  Tooltip,
+  Zoom,
+  IconButton,
+} from "@mui/material";
 
 // components
 import AlphabeticallyPaginationComponent from "../../components/AlphabeticallyPaginationComponent";
 import TermListComponent from "../../components/TermsListComponent";
-import ActionButtonComponent from "../../components/ActionButtonComponent";
+import SnackBarComponent from "../../components/SnackBarComponent";
+// import ActionButtonComponent from "../../components/ActionButtonComponent";
 
 // material icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import AdminLinksComponent from "../../components/admin/AdminLinksComponent";
 
-// tools functions
-const deleteHandler = () => {
-  if (window.confirm("Êtes-vous sur de vouloir supprimer ce terme technique?")); // Alert user for deleting
-};
-
-// temporary backend
-const terms = [
-  {
-    name: "Abaisser",
-    description:
-      "Donner une certaine épaisseur à une pâte à l'aide d'un rouleau à pâtisserie ou d'un laminoir",
-  },
-  {
-    name: "Abricoter",
-    description:
-      "Etendre du nappage (sirop épais, coulis...) à l'aide d'un pinceau sur les fruits d'une tarte par exemple pour la rendre brillante",
-  },
-  {
-    name: "Braiser",
-    description:
-      "Cuire lentement au four dans une braisière et à court mouillement",
-  },
-  {
-    name: "Blanchir",
-    description:
-      "Plonger quelques minutes des légumes dans une eau bouillante salée dans le but de les cuisiner ensuite ou de les congeler",
-  },
-  {
-    name: "Canneler",
-    description:
-      "Pratiquer de petites cannelures, à l'aide d'un couteau canneleur, à la surface de certains fruits pour améliorer leur présentation",
-  },
-  {
-    name: "Chemiser",
-    description:
-      "Mettre une couche de beurre, de farine ou un papier sulfurisé ou un film alimentaire sur le fond et les parois intérieures d'un moule. Mais aussi des bardes de lard ou une crépine pour confectionner une terrine ou encore des biscuits à la cuillère pour réaliser une charlotte...",
-  },
-];
-
-export default function AdminTermsPage() {
+const AdminTermsPage = () => {
+  const navigate = useNavigate();
+  const [getData, setGetData] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
   const sections = {};
 
+  // get data from DB
+  useEffect(() => {
+    fetch("http://localhost:3000/api/terms")
+      .then((res) => res.json())
+      .then((data) => {
+        setGetData(data);
+      });
+  }, []);
+
   // Sort the terms alphabetically
-  terms.sort((a, b) => a.name.localeCompare(b.name));
+  getData.sort((a, b) => a.title.localeCompare(b.title));
 
   // Group the terms by sections
-  terms.forEach((term) => {
-    const section = term.name[0].toUpperCase(); // Extract the first letter and convert to uppercase to create ections
+  getData.forEach((term) => {
+    const section = term.title[0].toUpperCase(); // Extract the first letter and convert to uppercase to create ections
     if (!sections[section]) {
       sections[section] = [];
     }
     sections[section].push(term);
   });
+
+  // remove term from the DB
+  let handleDelete = async (termID) => {
+    if (window.confirm("Êtes-vous sur de vouloir supprimer ce terme?")) {
+      console.log(termID);
+
+      try {
+        await setTimeout(() => {
+          fetch(`http://localhost:3000/api/terms/${termID}`, {
+            method: "DELETE",
+          });
+          // Update the state by filtering out the deleted term and display alert to inform user of suppression
+          setGetData([...getData].filter((term) => term._id !== termID));
+          setShowAlert(!showAlert);
+          // navigate("/admin/terms");
+        }, 1);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <Container
@@ -75,14 +79,24 @@ export default function AdminTermsPage() {
     >
       <AdminLinksComponent />
       <Stack direction={"column"}>
-        <Typography
-          component="h1"
-          variant="h4"
-          textAlign={{ xs: "center", sm: "inherit" }}
-          mx={"10px"}
+        <Stack
+          direction={{ md: "row" }}
+          alignItems={{ xs: "center", md: "inherit" }}
         >
-          Gestion des termes techniques
-        </Typography>
+          <Typography
+            component="h1"
+            variant="h4"
+            textAlign={{ xs: "center", sm: "inherit" }}
+            mx={"10px"}
+          >
+            Gestion des termes techniques
+          </Typography>
+          <Link to="/admin/create-term">
+            <Button variant="outlined" color="info" sx={{ mb: "5px" }}>
+              Ajouter un terme
+            </Button>
+          </Link>
+        </Stack>
         <Container
           sx={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
         >
@@ -94,13 +108,45 @@ export default function AdminTermsPage() {
             <Stack key={section}>
               <Typography color={"secondary"}>{section}</Typography>
               {sections[section].map((term, index) => (
-                <Stack direction={"row"} justifyContent={"space-between"}>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  key={index}
+                >
                   <TermListComponent
-                    name={term.name}
+                    name={term.title}
                     description={term.description}
                     key={index}
                   />
                   <Stack direction={"row"} alignItems={"center"}>
+                    <Tooltip
+                      title="Supprimer"
+                      followCursor
+                      TransitionComponent={Zoom}
+                    >
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(term._id)}
+                        tooltip={"Supprimer"}
+                      >
+                        <DeleteIcon color="error" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      title="Editer"
+                      followCursor
+                      TransitionComponent={Zoom}
+                    >
+                      <IconButton
+                        aria-label="edit"
+                        // onClick={handleUpdate}
+                        tooltip={"Editer"}
+                      >
+                        <EditNoteOutlinedIcon color="info" />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                  {/* <Stack direction={"row"} alignItems={"center"}>
                     <ActionButtonComponent
                       text={"Terme technique supprimé"}
                       severity={"info"}
@@ -114,13 +160,21 @@ export default function AdminTermsPage() {
                         toolTip={"Editer"}
                       />
                     </Link>
-                  </Stack>
+                  </Stack> */}
                 </Stack>
               ))}
             </Stack>
           ))}
         </Container>
+        {showAlert && (
+          <SnackBarComponent
+            severity={"warning"}
+            textAlert={"Recette supprimée!"}
+          />
+        )}
       </Stack>
     </Container>
   );
-}
+};
+
+export default AdminTermsPage;

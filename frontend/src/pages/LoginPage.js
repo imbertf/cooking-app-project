@@ -131,7 +131,7 @@ const LoginPage = () => {
         </Grid>
         <Typography>
           Vous n'avez pas encore de compte?{" "}
-          <Link to="/registrer">S'enregistrer</Link>
+          <Link to="/register">S'enregistrer</Link>
         </Typography>
         <Alert severity="error">
           Les identifiants ne sont pas corrects ou le compte n'existe pas

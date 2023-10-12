@@ -6,7 +6,7 @@ const cookingMethods = [
   { poché: "info" },
   { rôti: "success" },
   { sauté: "primary" },
-  { poêlée: "secondary" },
+  { émulsionné: "info" },
 ];
 
 const CookingMethodTagComponent = ({ cookingMethod }) => {

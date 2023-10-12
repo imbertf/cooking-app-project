@@ -1,21 +1,24 @@
 // react
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+// component
+import SnackBarComponent from "../../components/SnackBarComponent";
 
 // material ui
 import {
   Box,
   Button,
-  Input,
   OutlinedInput,
   Paper,
   TextField,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 
-// material icons
-
 const AdminCreateRecipePage = () => {
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -48,14 +51,20 @@ const AdminCreateRecipePage = () => {
         method: "POST",
         body: formDataToSend,
       });
+      console.log(res);
 
       if (res.ok) {
         console.log("Recipe added successfully!");
+        setShowAlert(!showAlert);
       } else {
         console.log("Error adding recipe");
       }
     } catch (error) {
       console.error("Error", error);
+    } finally {
+      setTimeout(() => {
+        navigate("/admin/recipes");
+      }, 1);
     }
   };
 
@@ -69,7 +78,6 @@ const AdminCreateRecipePage = () => {
       <Paper
         component="form"
         elevation={3}
-        onSubmit={handleSubmit}
         sx={{
           p: 4,
           maxWidth: 600,
@@ -126,14 +134,26 @@ const AdminCreateRecipePage = () => {
           onChange={handleImageChange}
         />
         <Button
-          variant="outlined"
-          color="info"
-          sx={{ mb: "5px" }}
-          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
         >
-          Enregistrer
+          {showAlert ? (
+            <CircularProgress color="info" size={25} />
+          ) : (
+            "Enregistrer"
+          )}
         </Button>
       </Paper>
+      {showAlert && (
+        <Box>
+          <SnackBarComponent
+            severity={"success"}
+            textAlert={"Recette créée!"}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

@@ -60,7 +60,7 @@ function App() {
           />
           <Route path="/admin/edit-recipe" element={<AdminEditRecipePage />} />
           <Route path="/admin/terms" element={<AdminTermsPage />} />
-          <Route path="/admin/create-terms" element={<AdminCreateTermPage />} />
+          <Route path="/admin/create-term" element={<AdminCreateTermPage />} />
           <Route path="/admin/edit-term" element={<AdminEditTermPage />} />
         </Route>
       </Routes>

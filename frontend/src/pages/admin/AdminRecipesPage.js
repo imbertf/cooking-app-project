@@ -57,7 +57,7 @@ import SnackBarComponent from "../../components/SnackBarComponent";
 const AdminRecipesPage = () => {
   const [getData, setGetData] = useState([]);
   const [currentValues, setCurrentValues] = useState(null);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   localStorage.setItem("valuesToUpdate", JSON.stringify(currentValues));
 
   let navigate = useNavigate();
@@ -79,7 +79,7 @@ const AdminRecipesPage = () => {
         });
         // Update the state by filtering out the deleted recipe and display alert to inform user of suppression
         setGetData([...getData].filter((recipe) => recipe._id !== recipeID));
-        setShowDeleteAlert(!showDeleteAlert);
+        setShowAlert(!showAlert);
       } catch (error) {
         console.log(error);
       }
@@ -120,7 +120,10 @@ const AdminRecipesPage = () => {
     >
       <AdminLinksComponent />
       <Stack>
-        <Stack direction={"row"}>
+        <Stack
+          direction={{ md: "row" }}
+          alignItems={{ xs: "center", sm: "inherit" }}
+        >
           <Typography
             component="h1"
             variant="h4"
@@ -155,7 +158,7 @@ const AdminRecipesPage = () => {
             );
           })}
         </Stack>
-        {showDeleteAlert && (
+        {showAlert && (
           <SnackBarComponent
             severity={"warning"}
             textAlert={"Recette supprimée!"}

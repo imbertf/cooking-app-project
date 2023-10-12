@@ -20,6 +20,7 @@ exports.getAllRecipes = (req, res, next) => {
 exports.createRecipe = (req, res, next) => {
   const recipeObject = req.body;
   delete recipeObject._id;
+  console.log(recipeObject);
 
   const recipe = new Recipe({
     ...recipeObject,

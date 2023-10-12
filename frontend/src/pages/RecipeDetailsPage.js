@@ -13,7 +13,7 @@ const recipe = {
   name: "Sauce Béarnaise",
   image: "https://recette.supertoinette.com/156204/b/sauce-bearnaise.jpg",
   recipeType: "Sauce émulsionnées semi-coagulée chaude",
-  cookingMethod: "grillé",
+  cookingMethod: "émulsionné",
   tools: [
     { src: "/medias/images/tools/casserole.png", alt: "casserole" },
     { src: "/medias/images/tools/fouet.png", alt: "fouet" },
