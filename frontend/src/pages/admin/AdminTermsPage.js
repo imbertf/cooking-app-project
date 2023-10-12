@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 // material ui
 import {
@@ -9,8 +9,6 @@ import {
   Stack,
   Button,
   Tooltip,
-  Zoom,
-  IconButton,
 } from "@mui/material";
 
 // components
@@ -27,8 +25,13 @@ import AdminLinksComponent from "../../components/admin/AdminLinksComponent";
 const AdminTermsPage = () => {
   const navigate = useNavigate();
   const [getData, setGetData] = useState([]);
+  const [currentValues, setCurrentValues] = useState({
+    title: "",
+    description: "",
+  });
   const [showAlert, setShowAlert] = useState(false);
   const sections = {};
+  localStorage.setItem("valuesToUpdate", JSON.stringify(currentValues));
 
   // get data from DB
   useEffect(() => {
@@ -51,11 +54,32 @@ const AdminTermsPage = () => {
     sections[section].push(term);
   });
 
-  // remove term from the DB
-  let handleDelete = async (termID) => {
-    if (window.confirm("Êtes-vous sur de vouloir supprimer ce terme?")) {
-      console.log(termID);
+  // update term
+  const handleUpdate = (termID) => {
+    try {
+      // get the Object and extract datas to stock to [currentValues] state
+      const currentValue = [...getData].filter((term) => term._id === termID);
+      const title = currentValue[0].title;
+      const description = currentValue[0].description;
+      const ID = currentValue[0]._id;
+      setCurrentValues({
+        title: title,
+        description: description,
+        _id: ID,
+      });
 
+      localStorage.setItem("valuesToUpdate", JSON.stringify(currentValues));
+      setTimeout(() => {
+        navigate("/admin/edit-term");
+      }, 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // remove term from the DB
+  const handleDelete = async (termID) => {
+    if (window.confirm("Êtes-vous sur de vouloir supprimer ce terme?")) {
       try {
         await setTimeout(() => {
           fetch(`http://localhost:3000/api/terms/${termID}`, {
@@ -118,49 +142,22 @@ const AdminTermsPage = () => {
                     description={term.description}
                     key={index}
                   />
-                  <Stack direction={"row"} alignItems={"center"}>
-                    <Tooltip
-                      title="Supprimer"
-                      followCursor
-                      TransitionComponent={Zoom}
-                    >
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDelete(term._id)}
-                        tooltip={"Supprimer"}
-                      >
-                        <DeleteIcon color="error" />
-                      </IconButton>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Tooltip title="Editer">
+                      <EditNoteOutlinedIcon
+                        color="info"
+                        onClick={() => handleUpdate(term._id)}
+                        sx={{ cursor: "pointer" }}
+                      />
                     </Tooltip>
-                    <Tooltip
-                      title="Editer"
-                      followCursor
-                      TransitionComponent={Zoom}
-                    >
-                      <IconButton
-                        aria-label="edit"
-                        // onClick={handleUpdate}
-                        tooltip={"Editer"}
-                      >
-                        <EditNoteOutlinedIcon color="info" />
-                      </IconButton>
+                    <Tooltip title="Supprimer">
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => handleDelete(term._id)}
+                        sx={{ cursor: "pointer" }}
+                      />
                     </Tooltip>
                   </Stack>
-                  {/* <Stack direction={"row"} alignItems={"center"}>
-                    <ActionButtonComponent
-                      text={"Terme technique supprimé"}
-                      severity={"info"}
-                      Children={<DeleteIcon color="error" />}
-                      toolTip={"Supprimer"}
-                      clickAction={deleteHandler}
-                    />
-                    <Link to="/admin/edit-term">
-                      <ActionButtonComponent
-                        Children={<EditNoteOutlinedIcon color="info" />}
-                        toolTip={"Editer"}
-                      />
-                    </Link>
-                  </Stack> */}
                 </Stack>
               ))}
             </Stack>

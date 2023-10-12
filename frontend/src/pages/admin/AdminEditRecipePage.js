@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // components
 import SnackBarComponent from "../../components/SnackBarComponent";
@@ -12,7 +12,6 @@ import {
   Grid,
   Paper,
   Typography,
-  Alert,
   OutlinedInput,
   CircularProgress,
 } from "@mui/material";

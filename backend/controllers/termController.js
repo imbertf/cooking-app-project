@@ -35,9 +35,10 @@ exports.createTerm = (req, res, next) => {
 };
 
 exports.updateTerm = (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const termId = req.params.id;
   const termObject = { ...req.body };
+  console.log(termObject);
 
   Term.findOne({ _id: termId })
     .then((term) => {
