@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const noteCtrl = require("../controllers/noteController");
+const auth = require("../middlewares/auth");
 
 router.get("/", noteCtrl.getAllNotes);
 router.get("/:id", noteCtrl.getOneNote);

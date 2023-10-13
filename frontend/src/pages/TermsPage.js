@@ -4,39 +4,6 @@ import { Container, Divider, Typography, Stack } from "@mui/material";
 import AlphabeticallyPaginationComponent from "../components/AlphabeticallyPaginationComponent";
 import TermListComponent from "../components/TermsListComponent";
 
-// const terms = [
-//   {
-//     name: "Abaisser",
-//     description:
-//       "Donner une certaine épaisseur à une pâte à l'aide d'un rouleau à pâtisserie ou d'un laminoir",
-//   },
-//   {
-//     name: "Abricoter",
-//     description:
-//       "Etendre du nappage (sirop épais, coulis...) à l'aide d'un pinceau sur les fruits d'une tarte par exemple pour la rendre brillante",
-//   },
-//   {
-//     name: "Braiser",
-//     description:
-//       "Cuire lentement au four dans une braisière et à court mouillement",
-//   },
-//   {
-//     name: "Blanchir",
-//     description:
-//       "Plonger quelques minutes des légumes dans une eau bouillante salée dans le but de les cuisiner ensuite ou de les congeler",
-//   },
-//   {
-//     name: "Canneler",
-//     description:
-//       "Pratiquer de petites cannelures, à l'aide d'un couteau canneleur, à la surface de certains fruits pour améliorer leur présentation",
-//   },
-//   {
-//     name: "Chemiser",
-//     description:
-//       "Mettre une couche de beurre, de farine ou un papier sulfurisé ou un film alimentaire sur le fond et les parois intérieures d'un moule. Mais aussi des bardes de lard ou une crépine pour confectionner une terrine ou encore des biscuits à la cuillère pour réaliser une charlotte...",
-//   },
-// ];
-
 const TermsPage = () => {
   const [getData, setGetData] = useState([]);
 

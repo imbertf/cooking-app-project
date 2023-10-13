@@ -19,8 +19,11 @@ const cors = require("cors");
 app.use(cors());
 
 // routes
+/////////////
+// Trying to find solution to create secured separated routes for admin and users
 const userRoutes = require("./routes/user");
 app.use("/api/auth", userRoutes);
+/////////////
 const recipeRoutes = require("./routes/recipe");
 app.use("/api/recipes", recipeRoutes);
 const termRoutes = require("./routes/term");

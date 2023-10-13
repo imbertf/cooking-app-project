@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // material ui
-import {
-  TextField,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  Box,
-  Alert,
-} from "@mui/material";
+import { TextField, Button, Grid, Paper, Typography, Box } from "@mui/material";
+
+// component
+import SnackBarComponent from "../components/SnackBarComponent";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +15,10 @@ const LoginPage = () => {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showFailAlert, setShowFailAlert] = useState(false);
+
+  const navigate = useNavigate();
 
   const isFormValid = () => {
     return (
@@ -55,14 +54,35 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      // Handle login here
-      console.log(formData);
-      // You can add your API call or other logic to handle login
+      try {
+        const res = await fetch(`http://localhost:3000/api/auth/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        if (res.ok) {
+          setShowAlert(!showAlert);
+          console.log("Connexion réussie");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        } else {
+          setShowFailAlert(!showFailAlert);
+          console.log("Erreur lors de la connexion");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      alert("Please fill in all required fields correctly!");
+      alert("Merci de renseigner tous les champs");
     }
   };
 
@@ -130,12 +150,25 @@ const LoginPage = () => {
           </Grid>
         </Grid>
         <Typography>
-          Vous n'avez pas encore de compte?{" "}
+          Vous n'avez pas encore de compte?
           <Link to="/register">S'enregistrer</Link>
         </Typography>
-        <Alert severity="error">
-          Les identifiants ne sont pas corrects ou le compte n'existe pas
-        </Alert>
+        {showAlert && (
+          <Box>
+            <SnackBarComponent
+              severity={"success"}
+              textAlert={"Connexion réussie!"}
+            />
+          </Box>
+        )}
+        {showFailAlert && (
+          <Box>
+            <SnackBarComponent
+              severity={"error"}
+              textAlert={"Ce compte n'existe pas"}
+            />
+          </Box>
+        )}
       </Paper>
     </Box>
   );

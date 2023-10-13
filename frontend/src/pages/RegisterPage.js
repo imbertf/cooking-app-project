@@ -12,6 +12,9 @@ import {
   Alert,
 } from "@mui/material";
 
+// component
+import SnackBarComponent from "../components/SnackBarComponent";
+
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -23,6 +26,8 @@ const RegisterPage = () => {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showFailAlert, setShowFailAlert] = useState(false);
 
   const isFormValid = () => {
     return (
@@ -68,12 +73,35 @@ const RegisterPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid()) {
       // Handle form submission here
-      console.log(formData);
       // You can add your API call or other logic to handle form submission
+      try {
+        const res = await fetch(`http://localhost:3000/api/auth/signup`, {
+          method: "POST",
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+          }),
+
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        if (res.ok) {
+          setShowSuccessAlert(!showSuccessAlert);
+          console.log("utilisateur créé");
+        } else {
+          setShowFailAlert(!showFailAlert);
+          console.log("Erreur lors de la création du compte");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       alert("Merci de renseigner tous les champs");
     }
@@ -105,7 +133,7 @@ const RegisterPage = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="First Name"
+              label="Prénom"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
@@ -116,7 +144,7 @@ const RegisterPage = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Last Name"
+              label="Nom"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
@@ -140,7 +168,7 @@ const RegisterPage = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Password"
+              label="Mot de passe"
               name="password"
               type="password"
               value={formData.password}
@@ -150,7 +178,7 @@ const RegisterPage = () => {
               error={passwordError}
               helperText={
                 passwordError
-                  ? "Password must have minimum 1 uppercase, 1 symbol, 1 number, and more than 6 characters"
+                  ? "Le mot de passe doit contenir minimum 1 majuscule, 1 symbole, 1 chiffre et plus de 6 caractères"
                   : ""
               }
             />
@@ -158,7 +186,7 @@ const RegisterPage = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Confirm Password"
+              label="Confirmez le Mot de passe"
               name="confirmPassword"
               type="password"
               value={formData.confirmPassword}
@@ -192,8 +220,22 @@ const RegisterPage = () => {
         <Typography>
           Vous avez déjà un compte? <Link to="/login">Se connecter</Link>
         </Typography>
-        <Alert severity="error">Ce mail est déjà associé à un compte</Alert>
-        <Alert severity="info">Compte créé</Alert>
+        {showSuccessAlert && (
+          <Box>
+            <SnackBarComponent
+              severity={"success"}
+              textAlert={"Compte créé!"}
+            />
+          </Box>
+        )}
+        {showFailAlert && (
+          <Box>
+            <SnackBarComponent
+              severity={"error"}
+              textAlert={"Compte déjà existant"}
+            />
+          </Box>
+        )}
       </Paper>
     </Box>
   );

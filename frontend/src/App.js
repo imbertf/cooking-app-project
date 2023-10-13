@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // components
@@ -45,7 +45,7 @@ function App() {
         <Route path="/recipe-details/:id" element={<RecipeDetailsPage />} />
         <Route path="/*" element="Page not exists 404" />
         {/* user protected routes:  */}
-        <Route element={<ProtectedRoutesComponent admin={false} />}>
+        <Route element={<ProtectedRoutesComponent admin={true} />}>
           <Route path="/user" element={<UserProfilePage />} />
           <Route path="/user/notepad" element={<UserNotePadPage />} />
         </Route>

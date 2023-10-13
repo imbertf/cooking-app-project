@@ -26,32 +26,6 @@ const HomePage = ({ idx }) => {
     event.preventDefault();
   };
 
-  const cards = [
-    {
-      name: "Sauce Bearnaise",
-      image: "https://recette.supertoinette.com/156204/b/sauce-bearnaise.jpg",
-    },
-    {
-      name: "Boeuf bourguignon",
-      image: "https://img.cuisineaz.com/660x660/2017/05/23/i127816-.jpeg",
-    },
-    {
-      name: "Fondant au chocolat",
-      image:
-        "https://resize.prod.femina.ladmedia.fr/rblr/652,438/img/var/2019-12/1575898110_fondant-au-chocolat.jpg",
-    },
-    // {
-    //   name: "Sole meunière",
-    //   image:
-    //     "https://www.produits-de-nouvelle-aquitaine.fr/uploads/2019/01/sole_meuniere_piment.jpg",
-    // },
-    // {
-    //   name: "Ratatouille",
-    //   image:
-    //     "https://www.primevere.com/voy_content/uploads/2023/02/image-346.jpg",
-    // },
-  ];
-
   useEffect(() => {
     fetch("http://localhost:3000/api/recipes")
       .then((res) => res.json())
@@ -138,7 +112,10 @@ const HomePage = ({ idx }) => {
             }}
           >
             L'accès à votre{" "}
-            <Link to="/register" style={{ color: theme.palette.info.light }}>
+            <Link
+              to="/user/notepad"
+              style={{ color: theme.palette.info.light }}
+            >
               {" "}
               bloc note{" "}
             </Link>
