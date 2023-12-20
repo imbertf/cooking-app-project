@@ -20,16 +20,21 @@ exports.getAllRecipes = (req, res, next) => {
 exports.createRecipe = (req, res, next) => {
   const recipeObject = req.body;
   delete recipeObject._id;
+
+  // Parse arrays contained in formData field from JSON string to array
+  recipeObject.ingredients = JSON.parse(recipeObject.ingredients);
+  recipeObject.steps = JSON.parse(recipeObject.steps);
   console.log(recipeObject);
 
   const recipe = new Recipe({
     ...recipeObject,
     image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
   });
+
   recipe
     .save()
     .then(() => {
-      res.status(201).json({ message: "Recipe added !" });
+      res.status(201).json({ message: "Recipe added!" });
     })
     .catch((error) => {
       res.status(400).json({ error });

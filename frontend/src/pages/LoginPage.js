@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // material ui
@@ -6,6 +6,18 @@ import { TextField, Button, Grid, Paper, Typography, Box } from "@mui/material";
 
 // component
 import SnackBarComponent from "../components/SnackBarComponent";
+
+const GetUsers = () => {
+  const [getUsers, setGetUsers] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3000/api/auth")
+      .then((res) => res.json())
+      .then((user) => {
+        setGetUsers(user);
+      });
+  }, []);
+  console.log(getUsers);
+};
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -55,8 +67,9 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (isFormValid()) {
+      // first check if user exist in BDD
       try {
         const res = await fetch(`http://localhost:3000/api/auth/login`, {
           method: "POST",
@@ -71,9 +84,26 @@ const LoginPage = () => {
         if (res.ok) {
           setShowAlert(!showAlert);
           console.log("Connexion réussie");
-          setTimeout(() => {
-            navigate("/");
-          }, 1500);
+          // after check if user exist, modify isLogged status in BDD
+          // check updateLogStatus in backend folder then userController file for more informations
+          try {
+            const res = await fetch(`http://localhost:3000/api/auth`, {
+              method: "PUT",
+              body: JSON.stringify({
+                email: formData.email,
+                isLogged: true,
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            });
+            if (res.ok) {
+              console.log(`Utilisateur connecté!`);
+              // navigate("/user");
+            }
+          } catch (error) {
+            console.log(error);
+          }
         } else {
           setShowFailAlert(!showFailAlert);
           console.log("Erreur lors de la connexion");

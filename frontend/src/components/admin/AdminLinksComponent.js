@@ -43,6 +43,16 @@ const AdminLinksComponent = () => {
           Recettes
         </NavLink>
         <NavLink
+          to="/admin/ingredients"
+          style={({ isActive, isPending }) => {
+            return {
+              color: isActive && theme.palette.secondary.main,
+            };
+          }}
+        >
+          Ingrédients
+        </NavLink>
+        <NavLink
           to="/admin/terms"
           style={({ isActive, isPending }) => {
             return {

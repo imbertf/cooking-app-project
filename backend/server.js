@@ -24,8 +24,11 @@ app.use(cors());
 const userRoutes = require("./routes/user");
 app.use("/api/auth", userRoutes);
 /////////////
+
 const recipeRoutes = require("./routes/recipe");
 app.use("/api/recipes", recipeRoutes);
+const ingredientRoutes = require("./routes/ingredient");
+app.use("/api/ingredients", ingredientRoutes);
 const termRoutes = require("./routes/term");
 app.use("/api/terms", termRoutes);
 const noteRoutes = require("./routes/note");

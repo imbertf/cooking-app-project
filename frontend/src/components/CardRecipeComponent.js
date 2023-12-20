@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 
-const CardRecipeComponent = ({ image, name, description }) => {
+const CardRecipeComponent = ({ ID, image, name, description }) => {
   const theme = useTheme();
 
   return (

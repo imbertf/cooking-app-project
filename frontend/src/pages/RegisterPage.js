@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // material ui
 import {
@@ -16,6 +16,7 @@ import {
 import SnackBarComponent from "../components/SnackBarComponent";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -95,6 +96,9 @@ const RegisterPage = () => {
         if (res.ok) {
           setShowSuccessAlert(!showSuccessAlert);
           console.log("utilisateur créé");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         } else {
           setShowFailAlert(!showFailAlert);
           console.log("Erreur lors de la création du compte");

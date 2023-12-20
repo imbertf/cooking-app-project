@@ -3,6 +3,12 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+exports.getOneUser = (req, res, next) => {
+  User.findOne({ _id: req.params.id })
+    .then((term) => res.status(200).json(term))
+    .catch((error) => res.status(400).json({ error }));
+};
+
 exports.getAllUsers = (req, res, next) => {
   User.find()
     .then((users) => {
@@ -79,4 +85,29 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+};
+
+exports.updateLogStatus = (req, res, next) => {
+  const userEmail = req.body.email;
+  const userObject = { ...req.body };
+
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      User.updateOne({ email: userEmail }, { ...userObject, email: userEmail })
+        .then(() => {
+          res.status(200).json({ message: "User logging status modified!" });
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).json({ error: "Error changing logging status " });
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Error finding user" });
+    });
 };
