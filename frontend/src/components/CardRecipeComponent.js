@@ -13,10 +13,9 @@ import {
 
 const CardRecipeComponent = ({ ID, image, name, description }) => {
   const theme = useTheme();
-
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Link to="/recipe-details/:id">
+      <Link to={`/recipe-details/${ID}`}>
         <Card
           variant="outlined"
           sx={{
@@ -36,9 +35,6 @@ const CardRecipeComponent = ({ ID, image, name, description }) => {
           <CardContent>
             <Typography variant="h6" component="h3" gutterBottom>
               {name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {description}
             </Typography>
           </CardContent>
         </Card>

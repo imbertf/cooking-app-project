@@ -1,6 +1,16 @@
 const Recipe = require("../models/Recipe");
 const fs = require("fs");
 
+// Helper function to parse JSON field if needed
+function parseJsonField(field) {
+  try {
+    return typeof field === "string" ? JSON.parse(field) : field;
+  } catch (error) {
+    console.error(`Error parsing JSON field: ${error.message}`);
+    return field;
+  }
+}
+
 exports.getOneRecipe = (req, res, next) => {
   Recipe.findOne({ _id: req.params.id })
     .then((recipe) => res.status(200).json(recipe))
@@ -52,6 +62,10 @@ exports.updateRecipe = (req, res, next) => {
         }`,
       }
     : { ...req.body };
+
+  // Parse arrays contained in formData field from JSON string to array
+  recipeObject.ingredients = parseJsonField(recipeObject.ingredients);
+  recipeObject.steps = parseJsonField(recipeObject.steps);
 
   Recipe.findOne({ _id: recipeId })
     .then((recipe) => {

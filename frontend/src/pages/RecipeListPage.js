@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 // material UI
-import { Container, Box, Stack, Typography, Grid } from "@mui/material";
+import {
+  Container,
+  Box,
+  Stack,
+  Typography,
+  Grid,
+  // Card,
+  // CardMedia,
+  // CardContent,
+  useTheme,
+} from "@mui/material";
 import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
 import CardRecipeComponent from "../components/CardRecipeComponent";
 import SortOptionsComponent from "../components/SortOptionsComponent";
@@ -54,6 +64,7 @@ import SortOptionsComponent from "../components/SortOptionsComponent";
 
 const RecipesPage = () => {
   const [getData, setGetData] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     fetch("http://localhost:3000/api/recipes")
@@ -88,6 +99,7 @@ const RecipesPage = () => {
               description={recipe.description}
               image={recipe.image}
               key={index}
+              ID={recipe._id}
             />
           ))}
         </Grid>

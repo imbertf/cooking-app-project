@@ -45,14 +45,20 @@ const AdminRecipesPage = () => {
       const cardData = [...getData].filter((recipe) => recipe._id === recipeID);
       const name = cardData[0].name;
       const category = cardData[0].category;
-      const description = cardData[0].description;
+      const cookingMethod = cardData[0].cookingMethod;
+      const steps = cardData[0].steps;
+      // const description = cardData[0].description;
+      const ingredients = cardData[0].ingredients;
       const image = cardData[0].image;
       const ID = cardData[0]._id;
       setCurrentValues({
         _id: ID,
         name: name,
         category: category,
-        description: description,
+        cookingMethod: cookingMethod,
+        steps: steps,
+        // description: description,
+        ingredients: ingredients,
         image: image,
       });
 

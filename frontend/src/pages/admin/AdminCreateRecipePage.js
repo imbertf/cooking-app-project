@@ -18,14 +18,18 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
+  Tooltip,
   ListItem,
   List,
   ListItemText,
   Stack,
+  Zoom,
 } from "@mui/material";
 
 // material icons
 import PlaylistAddOutlinedIcon from "@mui/icons-material/PlaylistAddOutlined";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const AdminCreateRecipePage = () => {
   // get ingrédients from DB to display them in option selection
@@ -45,6 +49,7 @@ const AdminCreateRecipePage = () => {
     name: "",
     quantity: 0,
     unit: "",
+    image: "",
   });
   const [steps, setSteps] = useState([]);
   const [stepValue, setStepValue] = useState({
@@ -61,28 +66,25 @@ const AdminCreateRecipePage = () => {
     image: "",
   });
 
-  console.log(formData);
+  const handleDelete = (index, type) => {
+    let updatedList = [];
 
-  const cookingMethods = [
-    "grillé",
-    "rôtis",
-    "émulsionné",
-    "sauté",
-    "braisée",
-    "poché",
-  ];
+    if (type === "ingredient") {
+      updatedList = [...selectedIngredients];
+      updatedList.splice(index, 1);
+      setSelectedIngredients(updatedList);
+    } else if (type === "step") {
+      updatedList = [...steps];
+      updatedList.splice(index, 1);
+      setSteps(updatedList);
+    }
 
-  const units = [
-    "mg",
-    "gr",
-    "kg",
-    "ml",
-    "cl",
-    "l",
-    "feuille(s)",
-    "cuillère(s)",
-    "pincée(s)",
-  ];
+    // Update formData with the modified list
+    setFormData({
+      ...formData,
+      [type === "ingredient" ? "ingredients" : "steps"]: updatedList,
+    });
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -114,6 +116,7 @@ const AdminCreateRecipePage = () => {
       name: "",
       quantity: 0,
       unit: "",
+      image: "",
     });
 
     if (selectedIngredients) {
@@ -176,6 +179,41 @@ const AdminCreateRecipePage = () => {
     }
   };
 
+  const categories = [
+    "potage",
+    "hors d'oeuvre froid",
+    "hors d'oeuvre chaud",
+    "oeuf",
+    "poisson",
+    "coquillage, crustacé",
+    "viandes",
+    "abat",
+    "volaille",
+    "garniture",
+    "dessert",
+  ];
+
+  const cookingMethods = [
+    "grillé",
+    "rôtis",
+    "émulsionné",
+    "sauté",
+    "braisée",
+    "poché",
+  ];
+
+  const units = [
+    "mg",
+    "gr",
+    "kg",
+    "ml",
+    "cl",
+    "l",
+    "feuille(s)",
+    "cuillère(s)",
+    "pincée(s)",
+  ];
+
   return (
     <Box
       component={"main"}
@@ -212,16 +250,24 @@ const AdminCreateRecipePage = () => {
           value={formData.name}
           onChange={handleChange}
         />
-        <TextField
-          id="category"
-          name="category"
-          label="Catégorie de recette"
-          variant="outlined"
-          required
-          sx={{ my: "5px" }}
-          value={formData.category}
-          onChange={handleChange}
-        />
+        <FormControl>
+          <InputLabel>Catégorie</InputLabel>
+          <Select
+            id="category"
+            name="category"
+            label="Methode"
+            required
+            sx={{ my: "5px" }}
+            value={formData.category}
+            onChange={handleChange}
+          >
+            {categories.map((category, index) => (
+              <MenuItem value={category} key={index}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl>
           <InputLabel>Methode</InputLabel>
           <Select
@@ -343,6 +389,18 @@ const AdminCreateRecipePage = () => {
                     <ListItemText>{component.name}</ListItemText>
                     <ListItemText>{component.quantity}</ListItemText>
                     <ListItemText>{component.unit}</ListItemText>
+                    <Tooltip
+                      title="Supprimer"
+                      followCursor
+                      TransitionComponent={Zoom}
+                    >
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(index, "ingredient")}
+                      >
+                        <DeleteIcon color="error" />
+                      </IconButton>
+                    </Tooltip>
                   </ListItem>
                 </Paper>
               </List>
@@ -356,6 +414,18 @@ const AdminCreateRecipePage = () => {
                   <ListItem>
                     <ListItemText sx={{ mr: 1 }}>{index}</ListItemText>
                     <ListItemText>{step.description}</ListItemText>
+                    <Tooltip
+                      title="Supprimer"
+                      followCursor
+                      TransitionComponent={Zoom}
+                    >
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(index, "step")}
+                      >
+                        <DeleteIcon color="error" />
+                      </IconButton>
+                    </Tooltip>
                   </ListItem>
                 </Paper>
               </List>

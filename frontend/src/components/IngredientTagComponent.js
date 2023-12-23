@@ -18,7 +18,7 @@ const IngredientTagComponent = ({ img, alt, ingredient, quantity, mesure }) => {
         width: { xs: "100%", sm: "300px" },
       }}
     >
-      <Box component={"div"} sx={{ maxWidth: "40px" }}>
+      <Box component={"div"} sx={{ maxWidth: "40px", mr: 2 }}>
         <img
           src={img}
           alt={alt}

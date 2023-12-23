@@ -1,37 +1,34 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import { Icon, Stack } from "@mui/material";
 
-export default function BasicList({ steps }) {
+// material ui
+import { Box, Stack } from "@mui/material";
+
+const StepTagComponent = ({ index, step }) => {
   return (
-    <Box my={3}>
-      <List>
-        <ListItem
-          disablePadding
-          sx={{ flexDirection: "column", alignItems: "start" }}
-        >
-          {steps.map((step, index) => (
-            <Stack
-              direction={"row"}
-              spacing={1}
-              key={index}
-              alignItems={"center"}
-            >
-              <Icon
-                color="primary"
-                fontSize="small"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                {index + 1}
-              </Icon>
-              <ListItemText primary={step.etape} />
-            </Stack>
-          ))}
-        </ListItem>
-      </List>
+    <Box
+      component={"div"}
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: " 10px",
+        // boxShadow: "0 0 14px 0 rgba(0,0,0,.1)",
+        fontWeight: "700",
+        margin: "5px",
+        // width: { xs: "100%", lg: "49%" },
+      }}
+    >
+      <Stack
+        direction={"row"}
+        spacing={2}
+        width={"100%"}
+        fontWeight={"initial"}
+      >
+        <span style={{ color: "#52C2CC" }}>{index + 1}</span>
+        <span>{step}</span>
+      </Stack>
     </Box>
   );
-}
+};
+
+export default StepTagComponent;
