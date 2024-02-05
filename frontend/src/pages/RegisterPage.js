@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // material ui
-import {
-  Box,
-  TextField,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  Alert,
-} from "@mui/material";
+import { Box, TextField, Button, Grid, Paper, Typography } from "@mui/material";
 
 // component
 import SnackBarComponent from "../components/SnackBarComponent";

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // material UI
 import {
@@ -7,7 +8,7 @@ import {
   Zoom,
   Menu,
   MenuItem,
-  Badge,
+  Stack,
   Typography,
   IconButton,
   Toolbar,
@@ -16,19 +17,19 @@ import {
 } from "@mui/material";
 
 // material icons
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchComponent from "./SearchComponent";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import { NavBarButtons } from "./navigation/NavbarButtons";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { isAuthenticated } = useAuth0();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -71,13 +72,7 @@ export default function PrimarySearchAppBar() {
         <Link to="/user">Profil</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link to="/user">Favoris</Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
         <Link to="/user/notepad">Bloc notes</Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/login">Se déconnecter</Link>
       </MenuItem>
     </Menu>
   );
@@ -111,12 +106,10 @@ export default function PrimarySearchAppBar() {
         <MenuItem>
           <IconButton
             size="large"
-            aria-label="show 4 new mails"
+            aria-label="shom technical terms"
             color="primary"
           >
-            <Badge badgeContent={4} color="secondary">
-              <ArticleOutlinedIcon />
-            </Badge>
+            <ArticleOutlinedIcon />
           </IconButton>
           <p>Termes techniques</p>
         </MenuItem>
@@ -125,71 +118,57 @@ export default function PrimarySearchAppBar() {
         <MenuItem>
           <IconButton
             size="large"
-            aria-label="show 17 new notifications"
             color="primary"
+            aria-label="Send user to recipes page"
           >
-            <Badge badgeContent={17} color="secondary">
-              <MenuBookRoundedIcon />
-            </Badge>
+            <MenuBookRoundedIcon />
           </IconButton>
           <p>Recettes</p>
         </MenuItem>
       </Link>
-      <Link to="/user/notepad">
-        <MenuItem>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="primary"
-          >
-            <NoteAddIcon />
-          </IconButton>
-          <p>Bloc notes</p>
-        </MenuItem>
-      </Link>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="primary"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="primary"
-        >
-          <PersonAddIcon />
-        </IconButton>
-        <p>Register</p>
-      </MenuItem>
+      {isAuthenticated && (
+        <>
+          <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="primary"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>Profil</p>
+          </MenuItem>
+          <Link to="/admin/users">
+            <MenuItem>
+              <IconButton
+                size="large"
+                aria-label="shom technical terms"
+                color="primary"
+              >
+                <AdminPanelSettingsOutlinedIcon />
+              </IconButton>
+              <p>Admin</p>
+            </MenuItem>
+          </Link>
+        </>
+      )}
+
+      <Stack direction="column" spacing={1} alignItems={"center"}>
+        <NavBarButtons />
+      </Stack>
     </Menu>
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, boxShadow: "0 0 5px lightgrey", mb: "3rem" }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-            color={"primary"}
-          >
+          <Typography variant="h5" noWrap component="div" color={"primary"}>
             <Link to="/">Cooking App Project</Link>
           </Typography>
-          <SearchComponent />
+          {/* <SearchComponent /> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton size="large" aria-label="Accueil" color="primary">
@@ -221,38 +200,42 @@ export default function PrimarySearchAppBar() {
                 </Link>
               </Tooltip>
             </IconButton>
-            <IconButton size="large" aria-label="S'enregistrer" color="primary">
-              <Tooltip
-                title="S'enregistrer"
-                followCursor
-                TransitionComponent={Zoom}
-              >
-                <Link to="/register">
-                  <PersonAddIcon />
-                </Link>
-              </Tooltip>
-            </IconButton>
+            {isAuthenticated && (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="Compte utilisateur"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="primary"
+                  sx={{ display: "block" }}
+                >
+                  <Tooltip
+                    title="Profil"
+                    followCursor
+                    TransitionComponent={Zoom}
+                  >
+                    <AccountCircle />
+                  </Tooltip>
+                </IconButton>
+                <IconButton size="large" aria-label="Admin" color="primary">
+                  <Tooltip
+                    title="Admin"
+                    followCursor
+                    TransitionComponent={Zoom}
+                  >
+                    <Link to="/admin/users">
+                      <AdminPanelSettingsOutlinedIcon />
+                    </Link>
+                  </Tooltip>
+                </IconButton>
+              </>
+            )}
 
-            <IconButton
-              size="large"
-              aria-label="Compte utilisateur"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="primary"
-              sx={{ display: "block" }}
-            >
-              <Tooltip title="Profil" followCursor TransitionComponent={Zoom}>
-                <AccountCircle />
-              </Tooltip>
-            </IconButton>
-            <IconButton size="large" aria-label="Admin" color="primary">
-              <Tooltip title="Admin" followCursor TransitionComponent={Zoom}>
-                <Link to="/admin/users">
-                  <AdminPanelSettingsOutlinedIcon />
-                </Link>
-              </Tooltip>
-            </IconButton>
+            <Stack direction={"row"} spacing={1} alignItems={"center"}>
+              <NavBarButtons />
+            </Stack>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

@@ -9,7 +9,7 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
-import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
+import CategoryFilterComponent from "../components/filter/CategoryFilterComponent";
 import CardRecipeComponent from "../components/CardRecipeComponent";
 import SortOptionsComponent from "../components/SortOptionsComponent";
 

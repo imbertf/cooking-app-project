@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Divider, Typography, Stack } from "@mui/material";
 
-import AlphabeticallyPaginationComponent from "../components/AlphabeticallyPaginationComponent";
+import AlphabeticallyPaginationComponent from "../components/filter/AlphabeticallyPaginationComponent";
 import TermListComponent from "../components/TermsListComponent";
 
 const TermsPage = () => {

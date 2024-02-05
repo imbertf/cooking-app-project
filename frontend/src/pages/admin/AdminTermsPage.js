@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // material ui
 import {
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 // components
-import AlphabeticallyPaginationComponent from "../../components/AlphabeticallyPaginationComponent";
+import AlphabeticallyPaginationComponent from "../../components/filter/AlphabeticallyPaginationComponent";
 import TermListComponent from "../../components/TermsListComponent";
 import SnackBarComponent from "../../components/SnackBarComponent";
 // import ActionButtonComponent from "../../components/ActionButtonComponent";

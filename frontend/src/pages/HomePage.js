@@ -17,7 +17,7 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 
 // components
 import CardRecipeComponent from "../components/CardRecipeComponent";
-import SearchComponent from "../components/SearchComponent";
+// import SearchComponent from "../components/SearchComponent";
 
 const HomePage = ({ idx }) => {
   const theme = useTheme();
@@ -36,17 +36,6 @@ const HomePage = ({ idx }) => {
 
   return (
     <Container maxWidth="md">
-      <Box my={4} textAlign="center">
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{ display: { xs: "block", sm: "none" } }}
-          color="primary"
-        >
-          Cooking App Project
-        </Typography>
-      </Box>
       <Box
         component={"section"}
         display={"flex"}
@@ -103,7 +92,8 @@ const HomePage = ({ idx }) => {
             <Link to="/register" style={{ color: theme.palette.success.main }}>
               enregistrant
             </Link>{" "}
-            vous aurez la possibilité d'ajouter vos recettes en favoris
+            vous aurez la possibilité d'ajouter, modifier ou supprimer une
+            recette.
           </Typography>
           <Typography
             sx={{
@@ -135,12 +125,11 @@ const HomePage = ({ idx }) => {
             Dictionnaire des termes techniques
           </Typography>
 
-          <form onSubmit={handleSearch} style={{ maxWidth: "300px" }}>
+          {/* <form onSubmit={handleSearch} style={{ maxWidth: "300px" }}>
             <SearchComponent />
-          </form>
+          </form> */}
         </Stack>
       </Box>
-
       <Box my={4} textAlign="center">
         <Stack direction={"row"} my={2} flexWrap={{ xs: "wrap" }}>
           <Typography variant="h5" component="h2">
@@ -159,6 +148,7 @@ const HomePage = ({ idx }) => {
               name={recipe.name}
               image={recipe.image}
               key={index}
+              ID={recipe._id}
             />
           ))}
           <Typography

@@ -17,7 +17,7 @@ const FooterComponent = () => {
       <Typography variant="h6" color="primary">
         Cooking App Project
       </Typography>
-      <Typography color="primary">Copyright ©️imbertf-2023</Typography>
+      <Typography color="primary">Copyright ©️imbertf-2024</Typography>
       <Link
         to={"https://imbertf.fr"}
         target="_blank"

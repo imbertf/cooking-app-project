@@ -9,14 +9,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material";
 // theme porvider
 import Theme from "./theme/Theme";
+import { Auth0ProviderWithNavigate } from "./provider/Auth0ProviderWithNavigate";
+import { BrowserRouter } from "react-router-dom";
 // @ts-ignore
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={Theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <BrowserRouter>
+      <Auth0ProviderWithNavigate>
+        <ThemeProvider theme={Theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </Auth0ProviderWithNavigate>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
