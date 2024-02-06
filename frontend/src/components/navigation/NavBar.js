@@ -22,14 +22,14 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SearchComponent from "./SearchComponent";
+import SearchComponent from "../SearchComponent";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import { NavBarButtons } from "./navigation/NavbarButtons";
+import { NavBarButtons } from "./NavbarButtons";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -127,7 +127,7 @@ export default function PrimarySearchAppBar() {
         </MenuItem>
       </Link>
       {isAuthenticated && (
-        <>
+        <div>
           <MenuItem onClick={handleProfileMenuOpen}>
             <IconButton
               size="large"
@@ -152,7 +152,7 @@ export default function PrimarySearchAppBar() {
               <p>Admin</p>
             </MenuItem>
           </Link>
-        </>
+        </div>
       )}
 
       <Stack direction="column" spacing={1} alignItems={"center"}>
@@ -162,16 +162,39 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, boxShadow: "0 0 5px lightgrey", mb: "3rem" }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        boxShadow: "0 0 5px lightgrey",
+        mb: "3rem",
+        height: "100px",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h5" noWrap component="div" color={"primary"}>
-            <Link to="/">Cooking App Project</Link>
-          </Typography>
+          <Box display="flex" flexDirection="column">
+            <Typography
+              variant="h5"
+              noWrap
+              component="div"
+              color={"primary"}
+              mr={1}
+            >
+              <Link to="/">Cooking App Project</Link>
+            </Typography>
+            {isAuthenticated && <Typography>Bonjour {user.name} !</Typography>}
+          </Box>
           {/* <SearchComponent /> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" aria-label="Accueil" color="primary">
+            <IconButton
+              size="small"
+              sx={{ pb: 0, mr: 1 }}
+              aria-label="Accueil"
+              color="primary"
+            >
               <Tooltip title="Accueil" followCursor TransitionComponent={Zoom}>
                 <Link to="/">
                   <HomeOutlinedIcon />
@@ -179,7 +202,8 @@ export default function PrimarySearchAppBar() {
               </Tooltip>
             </IconButton>
             <IconButton
-              size="large"
+              size="small"
+              sx={{ pb: 0, mr: 1 }}
               aria-label="Repertoire des termes techniques"
               color="primary"
             >
@@ -193,7 +217,12 @@ export default function PrimarySearchAppBar() {
                 </Link>
               </Tooltip>
             </IconButton>
-            <IconButton size="large" aria-label="Recettes" color="primary">
+            <IconButton
+              size="small"
+              sx={{ pb: 0, mr: 1 }}
+              aria-label="Recettes"
+              color="primary"
+            >
               <Tooltip title="Recettes" followCursor TransitionComponent={Zoom}>
                 <Link to="/recipe-list">
                   <MenuBookRoundedIcon />
@@ -203,7 +232,8 @@ export default function PrimarySearchAppBar() {
             {isAuthenticated && (
               <>
                 <IconButton
-                  size="large"
+                  size="small"
+                  sx={{ pb: 0, mr: 1 }}
                   aria-label="Compte utilisateur"
                   aria-controls={menuId}
                   aria-haspopup="true"
@@ -219,7 +249,12 @@ export default function PrimarySearchAppBar() {
                     <AccountCircle />
                   </Tooltip>
                 </IconButton>
-                <IconButton size="large" aria-label="Admin" color="primary">
+                <IconButton
+                  size="small"
+                  sx={{ pb: 0, mr: 1 }}
+                  aria-label="Admin"
+                  color="primary"
+                >
                   <Tooltip
                     title="Admin"
                     followCursor
@@ -239,7 +274,8 @@ export default function PrimarySearchAppBar() {
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
-              size="large"
+              size="small"
+              sx={{ pb: 0, mr: 1 }}
               aria-label="Ouvre le menu"
               aria-controls={mobileMenuId}
               aria-haspopup="true"

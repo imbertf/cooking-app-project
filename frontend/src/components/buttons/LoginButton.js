@@ -1,14 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 
 export const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
+  const theme = useTheme();
 
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/user",
+        returnTo: "/",
       },
     });
   };
@@ -16,8 +17,7 @@ export const LoginButton = () => {
   return (
     <Button
       variant="contained"
-      color="info"
-      sx={{ width: "100px", height: "30px" }}
+      sx={{ width: "100px", height: "30px", fontSize: "12px", color: "white" }}
       onClick={handleLogin}
     >
       Connexion

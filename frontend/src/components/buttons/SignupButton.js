@@ -19,10 +19,8 @@ export const SignupButton = () => {
   return (
     <Button
       variant="contained"
-      color="info"
-      size="small"
       onClick={handleSignUp}
-      sx={{ width: "100px", height: "30px" }}
+      sx={{ width: "100px", height: "30px", fontSize: "12px", color: "white" }}
     >
       S'enregistrer
     </Button>

@@ -4,6 +4,7 @@ const theme = createTheme({
   typography: {
     fontFamily: ["Jost Variable", "sans-serif"].join(","),
     allVariants: { color: "#2E5B5B" },
+    htmlFontSize: 13,
   },
 
   palette: {

@@ -14,10 +14,11 @@ import {
 
 // material icons
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 // components
 import CardRecipeComponent from "../components/CardRecipeComponent";
-// import SearchComponent from "../components/SearchComponent";
 
 const HomePage = ({ idx }) => {
   const theme = useTheme();
@@ -48,7 +49,12 @@ const HomePage = ({ idx }) => {
         <Typography variant="h5" component="h2" my={5}>
           Bienvenue sur Cooking App Project !
         </Typography>
-        <Stack marginBottom={3} direction={"row"} flexWrap={"wrap"}>
+        <Stack
+          marginBottom={3}
+          direction={"row"}
+          flexWrap={"wrap"}
+          justifyContent={"center"}
+        >
           <Typography
             sx={{
               padding: "10px",
@@ -56,8 +62,8 @@ const HomePage = ({ idx }) => {
             }}
             gutterBottom
           >
-            Cette application à destination des étudiants en formation cuisine
-            peuvent acceder simplement et rapidement à un{" "}
+            Cette application destinée aux étudiants en formation hôtelière
+            permet d'accéder simplement et rapidement à un{" "}
             <Link
               to="/technical-terms"
               style={{ color: theme.palette.secondary.light }}
@@ -90,7 +96,7 @@ const HomePage = ({ idx }) => {
           >
             En vous{" "}
             <Link to="/register" style={{ color: theme.palette.success.main }}>
-              enregistrant
+              enregistrant,
             </Link>{" "}
             vous aurez la possibilité d'ajouter, modifier ou supprimer une
             recette.
@@ -101,7 +107,7 @@ const HomePage = ({ idx }) => {
               width: { sm: "45%" },
             }}
           >
-            L'accès à votre{" "}
+            Un{" "}
             <Link
               to="/user/notepad"
               style={{ color: theme.palette.info.light }}
@@ -110,33 +116,69 @@ const HomePage = ({ idx }) => {
               bloc note{" "}
             </Link>
             afin d'y ajouter rapidement les informations dont vous pourriez
-            avoir besoin pour votre travail
+            avoir besoin pour votre travail est disponible via l'onglet "profil"
+            du menu de navigation.
           </Typography>
         </Stack>
       </Box>
       <Box my={10}>
         <Stack
           my={2}
+          direction={"row"}
           flexWrap={{ xs: "wrap" }}
-          justifyContent={{ xs: "center" }}
-          alignItems={"center"}
+          justifyContent={{ xs: "center", md: "flex-start" }}
+          alignItems={{ xs: "center", md: "flex-start" }}
         >
-          <Typography variant="h5" component="h2" gutterBottom>
+          <Typography variant="h5" component="h3">
             Dictionnaire des termes techniques
           </Typography>
-
-          {/* <form onSubmit={handleSearch} style={{ maxWidth: "300px" }}>
-            <SearchComponent />
-          </form> */}
+          <Link to="/recipe-list">
+            <Button
+              variant="text"
+              color="primary"
+              size="small"
+              sx={{ minWidth: "30px" }}
+            >
+              <ArticleOutlinedIcon color="inherit" />
+            </Button>
+          </Link>
         </Stack>
+        <Typography>
+          Les termes techniques culinaires en cuisine désignent un ensemble de
+          mots et de phrases spécifiques utilisés dans le domaine de la cuisine
+          pour décrire les techniques de préparation des aliments, les méthodes
+          de cuisson, les équipements de cuisine, les ingrédients et les plats
+          eux-mêmes.
+          <br />
+          <br /> Ces termes sont souvent en français, mais peuvent également
+          provenir d'autres langues en raison de l'influence internationale dans
+          le domaine culinaire. Ils sont essentiels pour la communication
+          efficace entre les chefs, les cuisiniers et le personnel de cuisine,
+          ainsi que pour la compréhension des recettes et des instructions de
+          cuisine.
+          <br />
+          <br /> En outre, ces termes peuvent varier en fonction de la tradition
+          culinaire régionale ou nationale, ce qui ajoute une richesse et une
+          diversité au vocabulaire culinaire.
+        </Typography>
       </Box>
       <Box my={4} textAlign="center">
-        <Stack direction={"row"} my={2} flexWrap={{ xs: "wrap" }}>
-          <Typography variant="h5" component="h2">
+        <Stack
+          direction={"row"}
+          my={2}
+          flexWrap={{ xs: "wrap" }}
+          justifyContent={{ xs: "center", md: "flex-start" }}
+        >
+          <Typography variant="h5" component="h3">
             Recettes tranditionnelles
           </Typography>
           <Link to="/recipe-list">
-            <Button variant="text" color="primary" sx={{ marginLeft: "10px" }}>
+            <Button
+              variant="text"
+              color="primary"
+              size="small"
+              sx={{ minWidth: "30px" }}
+            >
               <MenuBookRoundedIcon color="inherit" />
             </Button>
           </Link>
@@ -149,17 +191,19 @@ const HomePage = ({ idx }) => {
               image={recipe.image}
               key={index}
               ID={recipe._id}
+              category={recipe.category}
+              cookingMethod={recipe.cookingMethod}
             />
           ))}
           <Typography
             display={"flex"}
             alignItems={"flex-end"}
             ml={{ sm: "10px" }}
-            mt={{ xs: "10px", sm: "0" }}
-            color={"primary"}
+            mt={2}
           >
             <Link to="/recipe-list">
-              <Typography color={"secondary"}>Plus de recettes...</Typography>
+              Plus de recettes
+              <IoArrowForwardCircleOutline />
             </Link>
           </Typography>
         </Grid>

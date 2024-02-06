@@ -3,7 +3,7 @@ import React from "react";
 
 const UserProfilePageTest = () => {
   const { user } = useAuth0();
-  console.log(user);
+
   if (!user) {
     return null;
   }
