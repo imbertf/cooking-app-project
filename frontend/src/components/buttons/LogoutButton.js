@@ -15,7 +15,7 @@ export const LogoutButton = () => {
   };
 
   return (
-    <IconButton color="error" size="large" onClick={handleLogout}>
+    <IconButton color="error" size="medium" onClick={handleLogout}>
       <RiLogoutCircleLine />
     </IconButton>
   );

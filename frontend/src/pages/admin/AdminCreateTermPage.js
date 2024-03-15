@@ -18,6 +18,7 @@ import {
 const AdminCreateTermPage = () => {
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertEmptyField, setShowAlertEmptyField] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -33,9 +34,20 @@ const AdminCreateTermPage = () => {
 
   // create new recipe in DB
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
+
+    if (
+      formDataToSend.get("title") === "" ||
+      formDataToSend.get("description") === ""
+    ) {
+      setShowAlertEmptyField(!showAlertEmptyField);
+      return; // Exit early, preventing form submission
+    }
+
     try {
       const res = await fetch("http://localhost:3000/api/terms", {
         method: "POST",
@@ -124,6 +136,14 @@ const AdminCreateTermPage = () => {
           <SnackBarComponent
             severity={"success"}
             textAlert={"Terme technique ajouté!"}
+          />
+        </Box>
+      )}
+      {showAlertEmptyField && (
+        <Box>
+          <SnackBarComponent
+            severity={"warning"}
+            textAlert={"Tous les champs doivent être remplis"}
           />
         </Box>
       )}

@@ -22,7 +22,6 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SearchComponent from "../SearchComponent";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { NavBarButtons } from "./NavbarButtons";
 
@@ -186,7 +185,6 @@ export default function PrimarySearchAppBar() {
             </Typography>
             {isAuthenticated && <Typography>Bonjour {user.name} !</Typography>}
           </Box>
-          {/* <SearchComponent /> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
@@ -239,7 +237,7 @@ export default function PrimarySearchAppBar() {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                   color="primary"
-                  sx={{ display: "block" }}
+                  sx={{ display: "block", pb: 0 }}
                 >
                   <Tooltip
                     title="Profil"

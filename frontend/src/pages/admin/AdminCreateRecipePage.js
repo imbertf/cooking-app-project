@@ -44,6 +44,7 @@ const AdminCreateRecipePage = () => {
   const navigate = useNavigate();
   const [ingredients, setIngredients] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertEmptyField, setShowAlertEmptyField] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [ingredientValues, setIngredientValues] = useState({
     name: "",
@@ -148,6 +149,8 @@ const AdminCreateRecipePage = () => {
 
   // create new recipe in DB
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("category", formData.category);
@@ -156,6 +159,19 @@ const AdminCreateRecipePage = () => {
     formDataToSend.append("ingredients", JSON.stringify(formData.ingredients));
     formDataToSend.append("steps", JSON.stringify(formData.steps));
     formDataToSend.append("image", formData.image);
+
+    if (
+      formDataToSend.get("name") === "" ||
+      formDataToSend.get("category") === "" ||
+      formDataToSend.get("cookingMethod") === "" ||
+      formDataToSend.get("ingredients").length === 0 ||
+      formDataToSend.get("steps").length === 0 ||
+      formDataToSend.get("image") === null ||
+      !(formDataToSend.get("image") instanceof File)
+    ) {
+      setShowAlertEmptyField(!showAlertEmptyField);
+      return; // Exit early, preventing form submission
+    }
 
     try {
       const res = await fetch("http://localhost:3000/api/recipes", {
@@ -438,6 +454,14 @@ const AdminCreateRecipePage = () => {
           <SnackBarComponent
             severity={"success"}
             textAlert={"Recette créée!"}
+          />
+        </Box>
+      )}
+      {showAlertEmptyField && (
+        <Box>
+          <SnackBarComponent
+            severity={"warning"}
+            textAlert={"Tous les champs doivent être remplis"}
           />
         </Box>
       )}

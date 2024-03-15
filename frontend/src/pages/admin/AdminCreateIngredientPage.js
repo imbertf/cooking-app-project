@@ -23,6 +23,7 @@ import {
 const AdminCreateIngredientPage = () => {
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertEmptyField, setShowAlertEmptyField] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -43,9 +44,21 @@ const AdminCreateIngredientPage = () => {
 
   // create new ingredient in DB
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("image", formData.image);
+
+    if (
+      formDataToSend.get("name") === "" ||
+      formDataToSend.get("image") === null ||
+      !(formDataToSend.get("image") instanceof File)
+    ) {
+      setShowAlertEmptyField(!showAlertEmptyField);
+      return; // Exit early, preventing form submission
+    }
+
     try {
       const res = await fetch("http://localhost:3000/api/ingredients", {
         method: "POST",
@@ -132,6 +145,14 @@ const AdminCreateIngredientPage = () => {
           <SnackBarComponent
             severity={"success"}
             textAlert={"Ingrédient créée!"}
+          />
+        </Box>
+      )}
+      {showAlertEmptyField && (
+        <Box>
+          <SnackBarComponent
+            severity={"warning"}
+            textAlert={"Tous les champs doivent être remplis"}
           />
         </Box>
       )}

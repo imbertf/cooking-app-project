@@ -17,7 +17,7 @@ import RecipeListPage from "./pages/RecipeListPage";
 import RecipeDetailsPage from "./pages/RecipeDetailsPage";
 
 // protected user pages:
-import UserProfilePageTest from "./pages/user/UserProfilePageTest";
+import UserProfilePage from "./pages/user/UserProfilePage";
 import UserNotePadPage from "./pages/user/UserNotePadPage";
 
 // protected admin pages:
@@ -64,7 +64,7 @@ function App() {
         {/* user protected routes:  */}
         <Route
           path="/user"
-          element={<AuthenticationGuard component={UserProfilePageTest} />}
+          element={<AuthenticationGuard component={UserProfilePage} />}
         />
         <Route
           path="/user/notepad"

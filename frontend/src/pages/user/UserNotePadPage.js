@@ -49,6 +49,7 @@ const UserNotePadPage = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
+  const [showAlertEmptyField, setShowAlertEmptyField] = useState(false);
 
   // open and close functions
   const toggleModalAddNote = () => setOpen(!open);
@@ -92,6 +93,12 @@ const UserNotePadPage = () => {
 
   // create new recipe in DB
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (formData.title === "" || formData.description === "") {
+      setShowAlertEmptyField(!showAlertEmptyField);
+      return;
+    }
     try {
       const res = await fetch("http://localhost:3000/api/notes", {
         method: "POST",
@@ -374,6 +381,12 @@ const UserNotePadPage = () => {
         )}
         {showUpdateAlert && (
           <SnackBarComponent severity={"info"} textAlert={"Note modifiée!"} />
+        )}
+        {showAlertEmptyField && (
+          <SnackBarComponent
+            severity={"warning"}
+            textAlert={"Tous les champs doivent être remplis"}
+          />
         )}
       </Grid>
     </Container>
