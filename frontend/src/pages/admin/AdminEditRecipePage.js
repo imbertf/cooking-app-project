@@ -186,7 +186,7 @@ const AdminEditRecipePage = () => {
     "oeuf",
     "poisson",
     "coquillage, crustacé",
-    "viandes",
+    "viande",
     "abat",
     "volaille",
     "garniture",
