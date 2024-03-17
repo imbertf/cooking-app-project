@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Divider, Typography, Stack } from "@mui/material";
 
 import AlphabeticallyPaginationComponent from "../components/filter/AlphabeticallyPaginationComponent";
@@ -6,6 +6,9 @@ import TermListComponent from "../components/TermsListComponent";
 
 const TermsPage = () => {
   const [getData, setGetData] = useState([]);
+  const originalTermsDataRef = useRef([]);
+  const [selectedPage, setSelectedPage] = useState("");
+  const [selectedTermsByName, setSelectedTermsByName] = useState([]);
 
   const sections = {};
 
@@ -15,6 +18,7 @@ const TermsPage = () => {
       .then((res) => res.json())
       .then((data) => {
         setGetData(data);
+        originalTermsDataRef.current = data;
       });
   }, []);
 
@@ -30,25 +34,44 @@ const TermsPage = () => {
     sections[section].push(term);
   });
 
+  // catch page from AlphabeticallyPaginationComponent.js
+  const handleFilteredPage = (page) => {
+    setSelectedPage(page);
+    filterTermsByName(page);
+  };
+
+  // Initialize filteredRecipe with getData
+  useEffect(() => {
+    setSelectedTermsByName([...getData]);
+  }, [getData]);
+
+  const filterTermsByName = (page) => {
+    const termSelected = originalTermsDataRef.current.filter(
+      (term) => term.title[0] === page
+    );
+    if (termSelected.length === 0) {
+      setSelectedTermsByName([]);
+    } else {
+      setSelectedTermsByName(termSelected);
+    }
+  };
+
   return (
     <Container maxWidth="lg">
       <Container
         sx={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
       >
-        <AlphabeticallyPaginationComponent />
+        <AlphabeticallyPaginationComponent sendPage={handleFilteredPage} />
       </Container>
       <Divider />
       <Container sx={{ marginTop: "10px" }}>
-        {Object.keys(sections).map((section) => (
-          <Stack key={section}>
-            <Typography color={"secondary"}>{section}</Typography>
-            {sections[section].map((term, index) => (
-              <TermListComponent
-                name={term.title}
-                description={term.description}
-                key={index}
-              />
-            ))}
+        {selectedTermsByName.map((term, index) => (
+          <Stack key={index}>
+            <Typography color={"secondary"}>{term.title[0]}</Typography>
+            <TermListComponent
+              name={term.title}
+              description={term.description}
+            />
           </Stack>
         ))}
       </Container>

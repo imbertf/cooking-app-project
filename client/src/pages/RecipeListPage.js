@@ -15,10 +15,11 @@ import {
 } from "@mui/material";
 import CategoryFilterComponent from "../components/filter/CategoryFilterComponent";
 import CardRecipeComponent from "../components/CardRecipeComponent";
-import SortOptionsComponent from "../components/SortOptionsComponent";
 
 const RecipesPage = () => {
   const [getData, setGetData] = useState([]);
+  const [filteredRecipe, setFilteredRecipe] = useState([]);
+  const [filteredCategory, setFilteredCategory] = useState("");
   const theme = useTheme();
   const { isAuthenticated } = useAuth0();
 
@@ -26,15 +27,49 @@ const RecipesPage = () => {
     fetch("http://localhost:3000/api/recipes")
       .then((res) => res.json())
       .then((data) => {
+        data.sort((a, b) => a.name.localeCompare(b.name));
         setGetData(data);
       });
   }, []);
 
+  // This will be use as props in <CategoryFilterComponent/>
+  // to reach categoryName props from CategoryFilterComponent.js
+  const handleFilteredCategory = (category) => {
+    setFilteredCategory(category);
+    filterRecipe(category);
+  };
+
+  useEffect(() => {
+    setFilteredRecipe([...getData]); // Initialize filteredRecipe with getData
+  }, [getData]);
+
+  const filterRecipe = (category) => {
+    const filteredRecipes = getData.filter(
+      (recipe) =>
+        recipe.category
+          .toLowerCase()
+          .replace(/[^a-zA-Z0-9éÉ]/g, "")
+          .replace(/[éÉ]/g, "e") === category
+    );
+    setFilteredRecipe(filteredRecipes);
+
+    if (category === null) {
+      setFilteredRecipe(getData);
+    }
+  };
+
+  // handle sorted recipes from <CategoryFilterComponent/>
+  const handleSortedRecipes = (sortedRecipes) => {
+    setGetData(sortedRecipes);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ display: { md: "flex" } }}>
       <Box pt={{ md: "85px" }}>
-        <SortOptionsComponent />
-        <CategoryFilterComponent />
+        <CategoryFilterComponent
+          sendFilteredCategory={handleFilteredCategory}
+          sendSortedRecipes={handleSortedRecipes}
+        />
       </Box>
       <Box my={4} textAlign="center">
         <Stack
@@ -47,7 +82,7 @@ const RecipesPage = () => {
             Recettes tranditionnelles
           </Typography>
           {isAuthenticated ? (
-            <Link href="/admin/create-recipe" onClick={console.log("test")}>
+            <Link href="/admin/create-recipe">
               <Button variant="outlined" color="info" sx={{ mb: "5px" }}>
                 Créer une recette
               </Button>
@@ -69,7 +104,7 @@ const RecipesPage = () => {
         </Stack>
 
         <Grid container spacing={2} justifyContent="center">
-          {getData.map((recipe, index) => (
+          {filteredRecipe.map((recipe, index) => (
             <CardRecipeComponent
               name={recipe.name}
               description={recipe.description}

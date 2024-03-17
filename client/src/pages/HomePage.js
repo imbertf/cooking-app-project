@@ -132,7 +132,7 @@ const HomePage = ({ idx }) => {
           <Typography variant="h5" component="h3">
             Dictionnaire des termes techniques
           </Typography>
-          <Link to="/recipe-list">
+          <Link to="/technical-terms">
             <Button
               variant="text"
               color="primary"

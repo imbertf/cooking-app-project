@@ -87,7 +87,7 @@ const AdminIngredientsPage = () => {
           </Typography>
           <Link to="/admin/create-ingredient">
             <Button variant="outlined" color="info" sx={{ mb: "5px" }}>
-              Créer une ingredient
+              Créer un ingredient
             </Button>
           </Link>
         </Stack>

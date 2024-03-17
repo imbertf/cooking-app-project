@@ -21,11 +21,11 @@ const CardRecipeComponent = ({ ID, image, name, category, cookingMethod }) => {
         <Card
           variant="outlined"
           sx={{
-            transition: "transform 300ms, box-shadow 0.3s",
+            transition: "transform 150ms, box-shadow 0.3s",
             boxShadow: "0px 0px 10px lightgrey",
+            minWidth: { sm: "250px" },
             "&:hover": {
               transform: "scale(1.02)",
-              // borderColor: theme.palette.primary.light,
               boxShadow: "0px 0px 20px lightgrey",
             },
           }}
