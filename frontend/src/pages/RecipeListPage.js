@@ -15,11 +15,9 @@ import {
 } from "@mui/material";
 import CategoryFilterComponent from "../components/filter/CategoryFilterComponent";
 import CardRecipeComponent from "../components/CardRecipeComponent";
-import SortOptionsComponent from "../components/SortOptionsComponent";
 
 const RecipesPage = () => {
   const [getData, setGetData] = useState([]);
-  // console.log(getData);
   const [filteredRecipe, setFilteredRecipe] = useState([]);
   const [filteredCategory, setFilteredCategory] = useState("");
   const theme = useTheme();

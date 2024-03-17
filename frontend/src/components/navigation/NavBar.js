@@ -2,6 +2,9 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
+// logo
+import Logo from "../../images/logos/logo.png";
+
 // material UI
 import {
   Tooltip,
@@ -166,23 +169,24 @@ export default function PrimarySearchAppBar() {
         flexGrow: 1,
         boxShadow: "0 0 5px lightgrey",
         mb: "3rem",
-        height: "100px",
+        height: { xs: "150px", sm: "100px" },
         display: "flex",
         alignItems: "center",
       }}
     >
       <AppBar position="static">
         <Toolbar>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="h5"
-              noWrap
-              component="div"
-              color={"primary"}
-              mr={1}
+          <Box display="flex" alignItems={"flex-end"} flexWrap={"wrap"}>
+            <Link
+              to="/"
+              style={{ width: "90px", marginRight: "5px", display: "flex" }}
             >
-              <Link to="/">Cooking App Project</Link>
-            </Typography>
+              <img
+                src={Logo}
+                alt="Cooking App Project"
+                style={{ width: "100%" }}
+              />
+            </Link>
             {isAuthenticated && <Typography>Bonjour {user.name} !</Typography>}
           </Box>
           <Box sx={{ flexGrow: 1 }} />

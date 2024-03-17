@@ -183,7 +183,7 @@ const UserNotePadPage = () => {
 
   // remove note from the DB
   let handleDelete = async (noteID) => {
-    if (window.confirm("Êtes-vous sur de vouloir supprimer cette recette?")) {
+    if (window.confirm("Êtes-vous sur de vouloir supprimer cette note?")) {
       setTimeout(() => {
         try {
           fetch(`http://localhost:3000/api/notes/${noteID}`, {
